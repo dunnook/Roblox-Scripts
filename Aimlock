@@ -1,10 +1,9 @@
 if getgenv().Aimlock_Loaded == true then
 	game:GetService("StarterGui"):SetCore("SendNotification", {
-		Title = "Aimlock already loaded! what"
+		Title = "Aimlock already loaded!"
 		Text = "Right click to lock aim"
 		Duration = 5
 	})
-	print("Hello")
 	return
 end
 getgenv().Aimlock_Loaded = true
@@ -14,6 +13,7 @@ local plr = game:GetService("Players")
 local lp = plr.LocalPlayer
 local mouse = lp:GetMouse()
 function getChar(plr)
+    if plr == nil then return end
     return plr.Character or plr.CharacterAdded:Wait()
 end
 function getClosestMouse()
