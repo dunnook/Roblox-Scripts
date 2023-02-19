@@ -1,7 +1,7 @@
 if getgenv().Aimlock_Loaded == true then
 	game:GetService("StarterGui"):SetCore("SendNotification", {
-		Title = "Aimlock already loaded!"
-		Text = "Right click to lock aim"
+		Title = "Aimlock already loaded!",
+		Text = "Right click to lock aim",
 		Duration = 5
 	})
 	return
