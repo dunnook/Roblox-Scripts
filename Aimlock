@@ -12,6 +12,24 @@ local uis = game:GetService("UserInputService")
 local plr = game:GetService("Players")
 local lp = plr.LocalPlayer
 local mouse = lp:GetMouse()
+local key = settings.Aim_Key
+local enums = Enum.UserInputType:GetEnumItems()
+for i, v in next, Enum.KeyCode:GetEnumItems() do
+	table.insert(enums, v)
+end
+for i, v in next, enums do
+	local split = string.split(tostring(v), ".")
+	local enumName = split[#split]
+	enums[enumName:lower()] = {
+		split[2],
+		enumName
+	}
+end
+if enums[key] then
+	key = Enum[enums[key][1]][enums[key][2]]
+else
+	key = Enum.UserInputType.MouseButton2
+end
 function getChar(plr)
     if plr == nil then return end
     return plr.Character or plr.CharacterAdded:Wait()
@@ -57,7 +75,7 @@ task.spawn(function()
 	end)
 end)
 uis.InputBegan:Connect(function(key)
-    if key.UserInputType == Enum.UserInputType.MouseButton2 then
+    if key.UserInputType == key then
         enabled = not enabled
 		local plr, _ = getClosestMouse()
         while true do
@@ -80,7 +98,7 @@ uis.InputBegan:Connect(function(key)
     end
 end)
 uis.InputEnded:Connect(function(key)
-    if key.UserInputType == Enum.UserInputType.MouseButton2 then
+    if key.UserInputType == key then
 		if settings.Aim_Hold == true then
         	enabled = false
 		end
