@@ -92,7 +92,7 @@ uis.InputBegan:Connect(function(key)
 			if settings.Aim_Predict == true then
 				--Velocity prediction
 				local plrVelocity = getChar(plr):FindFirstChild(settings.Aim_Part).Velocity
-				vPrediction = plrVelocity * game.Players.LocalPlayer:GetNetworkPing() * 10
+				vPrediction = plrVelocity * game.Players.LocalPlayer:GetNetworkPing() * 1.3
 			end
 			local prediction = vPrediction
 			task.wait()
