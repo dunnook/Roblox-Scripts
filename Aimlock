@@ -1,7 +1,7 @@
 if getgenv().Aimlock_Loaded == true then
 	game:GetService("StarterGui"):SetCore("SendNotification", {
 		Title = "Aimlock already loaded!",
-		Text = "Right click to lock aim",
+		Text = "Aimlock already loaded!",
 		Duration = 5
 	})
 	return
@@ -12,7 +12,6 @@ local uis = game:GetService("UserInputService")
 local plr = game:GetService("Players")
 local lp = plr.LocalPlayer
 local mouse = lp:GetMouse()
-local key = settings.Aim_Key
 local enums = Enum.UserInputType:GetEnumItems()
 for i, v in next, Enum.KeyCode:GetEnumItems() do
 	table.insert(enums, v)
@@ -25,10 +24,10 @@ for i, v in next, enums do
 		enumName
 	}
 end
-if enums[key] then
-	key = Enum[enums[key][1]][enums[key][2]]
+if enums[Aim_Key] then
+	Aim_Key = Enum[enums[Aim_Key][1]][enums[Aim_Key][2]]
 else
-	key = Enum.UserInputType.MouseButton2
+	Aim_Key = Enum.UserInputType.MouseButton2
 end
 function getChar(plr)
     if plr == nil then return end
@@ -75,7 +74,13 @@ task.spawn(function()
 	end)
 end)
 uis.InputBegan:Connect(function(key)
-    if key.UserInputType == key then
+	local Aim_Key = string.lower(settings.Aim_Key)
+	if enums[Aim_Key] then
+		Aim_Key = Enum[enums[Aim_Key][1]][enums[Aim_Key][2]]
+	else
+		Aim_Key = Enum.UserInputType.MouseButton2
+	end
+    if key.UserInputType == Aim_Key or key.KeyCode == Aim_Key then
         enabled = not enabled
 		local plr, _ = getClosestMouse()
         while true do
@@ -98,7 +103,13 @@ uis.InputBegan:Connect(function(key)
     end
 end)
 uis.InputEnded:Connect(function(key)
-    if key.UserInputType == key then
+	local Aim_Key = string.lower(settings.Aim_Key)
+	if enums[Aim_Key] then
+		Aim_Key = Enum[enums[Aim_Key][1]][enums[Aim_Key][2]]
+	else
+		Aim_Key = Enum.UserInputType.MouseButton2
+	end
+    if key.UserInputType == Aim_Key or key.KeyCode == Aim_Key then
 		if settings.Aim_Hold == true then
         	enabled = false
 		end
