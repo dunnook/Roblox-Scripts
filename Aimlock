@@ -1,0 +1,90 @@
+getgenv().settings = {
+	Aim_Part = "HumanoidRootPart", --The part you want to aim on, usually "Head", "Torso"
+	Aim_Lock = true, --Keeps locking until release
+	Aim_Hold = true, --Hold to aim(true) or simply press(false)
+	Aim_Predict = true, --Turn on predict
+	Windows_Scale = 125, --Check your resolution scale on settings
+	Circle_Radius = 200, --FOV circle radius
+	Circle_Visible = true, --FOV circle visibility
+	Circle_Color_Speed = 35 --How fast the rainbow color changes
+}
+if getgenv().Loaded then return end
+getgenv().Loaded = true
+local enabled = false
+local uis = game:GetService("UserInputService")
+local plr = game:GetService("Players")
+local lp = plr.LocalPlayer
+local mouse = lp:GetMouse()
+function getChar(plr)
+    return plr.Character or plr.CharacterAdded:Wait()
+end
+function getClosestMouse()
+    local range, player, part = math.huge
+    for i, v in next, plr:GetPlayers() do
+        if v ~= lp and getChar(v):FindFirstChildOfClass("Humanoid") and getChar(v):FindFirstChild("Head") then
+            local rayOrigin = workspace.CurrentCamera.CFrame.Position
+            local rayDirection = getChar(v).PrimaryPart.Position - rayOrigin
+            local params = RaycastParams.new()
+            params.FilterDescendantsInstances = {getChar(lp), getChar(v)}
+            params.FilterType = Enum.RaycastFilterType.Blacklist
+            local raycastResult = workspace:Raycast(rayOrigin, rayDirection, params)
+            local partpos, isSuccess = workspace.CurrentCamera:WorldToViewportPoint(getChar(v).Head.Position)
+			local distToMouse = (Vector2.new(partpos.X, partpos.Y) - Vector2.new(mouse.x, mouse.y)).Magnitude
+            if raycastResult == nil and isSuccess == true and distToMouse < range and distToMouse < settings.Circle_Radius then
+                range = (Vector2.new(partpos.x, partpos.y) - Vector2.new(mouse.x, mouse.y)).Magnitude
+                player = v
+            end
+        end
+    end
+    return player, range
+end
+local circle = Drawing.new("Circle")
+circle.Radius = 200
+circle.Transparency = 1
+circle.Thickness = 1
+circle.Visible = true
+circle.Filled = false
+local i = 0
+task.spawn(function()
+	game:GetService("RunService").RenderStepped:Connect(function()
+		if i >= 1 then 
+			i = 0 
+		end
+		i += 0.0001 * settings.Circle_Color_Speed
+		circle.Visible = settings.Circle_Visible
+		circle.Radius = settings.Circle_Radius
+		circle.Position = Vector2.new(mouse.X * settings.Windows_Scale / 100, mouse.Y * settings.Windows_Scale / 100 + (36 * settings.Windows_Scale/100))
+		task.wait()
+		circle.Color = Color3.fromHSV(i, 1, 1)
+	end)
+end)
+uis.InputBegan:Connect(function(key)
+    if key.UserInputType == Enum.UserInputType.MouseButton2 then
+        enabled = not enabled
+		local plr, _ = getClosestMouse()
+        while true do
+            if enabled == false then return end
+			if settings.Aim_Lock == false then
+				plr, _ = getClosestMouse()
+			end
+			local vPrediction;
+			if settings.Aim_Predict == true then
+				--Velocity prediction
+				local plrVelocity = getChar(plr):FindFirstChild(settings.Aim_Part).Velocity
+				vPrediction = plrVelocity * game.Players.LocalPlayer:GetNetworkPing() * 10
+			end
+			local prediction = vPrediction
+			task.wait()
+            if plr ~= nil and getChar(plr):FindFirstChild(settings.Aim_Part) then
+                workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, getChar(plr):FindFirstChild(settings.Aim_Part).CFrame.Position + prediction)
+            end
+        end
+    end
+end)
+uis.InputEnded:Connect(function(key)
+    if key.UserInputType == Enum.UserInputType.MouseButton2 then
+		if settings.Aim_Hold == true then
+        	enabled = false
+		end
+    end
+end)
