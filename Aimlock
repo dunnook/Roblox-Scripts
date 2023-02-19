@@ -1,15 +1,11 @@
-getgenv().settings = {
-	Aim_Part = "HumanoidRootPart", --The part you want to aim on, usually "Head", "Torso"
-	Aim_Lock = true, --Keeps locking until release
-	Aim_Hold = true, --Hold to aim(true) or simply press(false)
-	Aim_Predict = true, --Turn on predict
-	Windows_Scale = 125, --Check your resolution scale on settings
-	Circle_Radius = 200, --FOV circle radius
-	Circle_Visible = true, --FOV circle visibility
-	Circle_Color_Speed = 35 --How fast the rainbow color changes
-}
-if getgenv().Loaded then return end
-getgenv().Loaded = true
+if getgenv().Aimlock_Loaded == true then
+	game:GetService("StarterGui"):SetCore("SendNotification", {
+		Title = "Aimlock already loaded!"; -- the title (ofc)
+		Text = "Right click to lock aim"; -- what the text says (ofc)
+		Duration = 5; -- how long the notification should in secounds
+	})
+end
+getgenv().Aimlock_Loaded = true
 local enabled = false
 local uis = game:GetService("UserInputService")
 local plr = game:GetService("Players")
@@ -88,3 +84,8 @@ uis.InputEnded:Connect(function(key)
 		end
     end
 end)
+game:GetService("StarterGui"):SetCore("SendNotification", {
+	Title = "Aimlock Loaded!"; -- the title (ofc)
+	Text = "Right click to lock aim"; -- what the text says (ofc)
+	Duration = 5; -- how long the notification should in secounds
+})
