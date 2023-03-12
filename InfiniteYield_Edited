@@ -6612,7 +6612,7 @@ addcmd('serverinfo',{'info','sinfo'},function(args, speaker)
 end)
 
 addcmd('jobid',{},function(args, speaker)
-	local jobId = PlaceId..' '..JobId
+	local jobId = JobId..' '..PlaceId
 	toClipboard(jobId)
 end)
 
