@@ -1,0 +1,8 @@
+getgenv().sc = {
+    plr = game:GetService("Players"),
+    lp = game:GetService("Players").LocalPlayer,
+    char = game:GetService("Players").LocalPlayer.Character or game:GetService("Players").LocalPlayer.CharacterAdded:Wait(),
+    uis = game:GetService("UserInputService"),
+    rs = game:GetService("ReplicatedStorage"),
+    run = game:GetService("RunService")
+}
