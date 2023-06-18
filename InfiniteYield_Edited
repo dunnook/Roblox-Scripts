@@ -12015,7 +12015,9 @@ if PluginsTable ~= nil or PluginsTable ~= {} then
 end
 
 --CustomCommands
-loadstring(game:HttpGet("https://raw.githubusercontent.com/dunnook/troll/main/command"))()
+pcall(function()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/dunnook/troll/main/command"))()
+end)
 
 -- Events
 eventEditor.RegisterEvent("OnExecute")
