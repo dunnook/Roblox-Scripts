@@ -26,9 +26,12 @@ for i, v in next, workspace:GetChildren() do
         towersPlaced = v
     end
 end
-if towerFolder == nil or upgradesFolder == nil or remote == nil then
+if towerFolder == nil or upgradesFolder == nil or remote == nil or sell == nil then
     warn("Need manual or script no work")
     return
+end
+if towersPlaced == nil then
+    warn("Need manual for towers placed folder")
 end
 local modelCount_towerfolder = 0
 local folderCount_towerfolder = 0
@@ -148,14 +151,4 @@ Callback = function()
     end
 end,
 })
-local Button2 = Tab:CreateButton({
-    Name = "Sell All Tower",
-    Callback = function()
-        for i, v in next, towersPlaced:GetChildren() do
-            local owner = v:FindFirstChild("Owner", true)
-            if owner and (owner.Value == game:GetService("Players").LocalPlayer.Name or game:GetService("Players").LocalPlayer) then
-                sell:FireServer(v)
-            end
-        end
-    end,
-})
+ 
