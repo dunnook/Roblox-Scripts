@@ -1,6 +1,8 @@
 local rs = game:GetService("ReplicatedStorage")
 local remote
+local sell
 local towerFolder
+local towersPlaced
 local upgradesFolder
 local placeHolder
 local towers = {}
@@ -14,6 +16,14 @@ for i, v in next, rs:GetDescendants() do
     end
     if table.find({"SpawnTower"}, v.Name) and (v:IsA("RemoteEvent") or v:IsA("RemoteFunction")) then
         remote = v
+    end
+    if table.find({"SellTower"}, v.Name) and (v:IsA("RemoteEvent") or v:IsA("RemoteFunction")) then
+        sell = v
+    end
+end
+for i, v in next, workspace:GetChildren() do
+    if table.find({"Towers"}, v.Name) and v:IsA("Folder") then
+        towersPlaced = v
     end
 end
 if towerFolder == nil or upgradesFolder == nil or remote == nil then
@@ -115,17 +125,6 @@ local Window = Rayfield:CreateWindow({
 })
 local Tab = Window:CreateTab("Tab Example", 4483362458) -- Title, Image
 
-local Dropdown1 = Tab:CreateDropdown({
-    Name = "Choose tower (Upgrade)",
-    Options = upgrades,
-    CurrentOption = "None",
-    Flag = "Dropdown1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-    Callback = function(Option)
-        local towerName = string.split(Option[1], ",")[1]
-        upgradeArgs[1] = towerName or tostring(Option[1])
-    end,
-})
-
 local Dropdown2 = Tab:CreateDropdown({
     Name = "Choose tower",
     Options = towers,
@@ -137,27 +136,6 @@ local Dropdown2 = Tab:CreateDropdown({
     end,
 })
 local Button1 = Tab:CreateButton({
-    Name = "Spawn Tower (Upgrade) (May need money)",
-    Callback = function()
-        upgradeArgs[2] = game:GetService("Players").LocalPlayer.Character.PrimaryPart.CFrame
-		local editArgs = {
-			[1] = default,
-            [2] = game:GetService("Players").LocalPlayer.Character.PrimaryPart.CFrame,
-		}
-        if remote.ClassName == "RemoteFunction" then
-            placeHolder = remote:InvokeServer(unpack(editArgs))
-			upgradeArgs[3] = placeHolder
-			remote:InvokeServer(unpack(upgradeArgs))
-        elseif remote.ClassName == "RemoteEvent" then
-            placeHolder = remote:FireServer(unpack(editArgs))
-            upgradeArgs[3] = placeHolder
-            remote:FireServer(unpack(upgradeArgs))
-        else
-            print("Wrong path")
-        end
-    end,
- })
-local Button2 = Tab:CreateButton({
 Name = "Spawn Tower (May need money)",
 Callback = function()
 	args[2] = game:GetService("Players").LocalPlayer.Character.PrimaryPart.CFrame
@@ -169,4 +147,15 @@ Callback = function()
         print("Wrong path")
     end
 end,
+})
+local Button2 = Tab:CreateButton({
+    Name = "Sell All Tower",
+    Callback = function()
+        for i, v in next, towersPlaced do
+            local owner = v:FindFirstChild("Owner", true)
+            if owner and (owner.Value == game:GetService("Players").LocalPlayer.Name or game:GetService("Players").LocalPlayer) then
+                sell:FireServer(v)
+            end
+        end
+    end,
 })
