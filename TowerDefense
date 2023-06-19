@@ -16,7 +16,7 @@ for i, v in next, rs:GetDescendants() do
         remote = v
     end
 end
-if towerFolder == nil or upgradesFolder == nil then
+if towerFolder == nil or upgradesFolder == nil or remote == nil then
     warn("Need manual or script no work")
     return
 end
