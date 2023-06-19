@@ -153,7 +153,7 @@ local Button2 = Tab:CreateButton({
     Callback = function()
         for i, v in next, towersPlaced do
             local owner = v:FindFirstChild("Owner", true)
-            if owner and (owner.Value == game:GetService("Players").LocalPlayer.Name or game:GetService("Players").LocalPlayer) then
+            if owner and (owner.Value == game:GetService("Players").LocalPlayer.Name or owner.Value == game:GetService("Players").LocalPlayer) then
                 sell:FireServer(v)
             end
         end
