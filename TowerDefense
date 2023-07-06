@@ -7,8 +7,9 @@ local upgradesFolder
 local placeHolder
 local towers = {}
 local upgrades = {}
+local postype = _G.settingtd["posType"]
 for i, v in next, rs:GetDescendants() do
-    if table.find({"Towers"}, v.Name) and v:IsA("Folder") then
+    if table.find({"Towers", "PlaceTower", "Place"}, v.Name) and v:IsA("Folder") then
         towerFolder = v
     end
     if table.find({"Upgrades"}, v.Name) and v:IsA("Folder") then
@@ -141,7 +142,7 @@ local Dropdown2 = Tab:CreateDropdown({
 local Button1 = Tab:CreateButton({
 Name = "Spawn Tower (May need money)",
 Callback = function()
-	args[2] = game:GetService("Players").LocalPlayer.Character.PrimaryPart.CFrame
+	args[2] = game:GetService("Players").LocalPlayer.Character.PrimaryPart[postype]
 	if remote.ClassName == "RemoteFunction" then
         remote:InvokeServer(unpack(args))
     elseif remote.ClassName == "RemoteEvent" then
@@ -151,4 +152,3 @@ Callback = function()
     end
 end,
 })
- 
