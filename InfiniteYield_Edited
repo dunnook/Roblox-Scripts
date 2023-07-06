@@ -11881,6 +11881,9 @@ addcmd('joinjobid',{'jjid'},function(args, speaker)
 	TeleportService:TeleportToPlaceInstance(placeId, jobId, game.Players.LocalPlayer)
 end)
 addcmd('tdgame',{'tdg'},function(args, speaker)
+	_G.settingtd = {
+        ["posType"] = args[1] == "cframe" and "CFrame" or args[1] == "vector" and "Position"
+    }
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/dunnook/Roblox-Scripts/main/TowerDefense"))()
 end)
 
