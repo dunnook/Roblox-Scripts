@@ -9,25 +9,22 @@ local towers = {}
 local upgrades = {}
 local postype = _G.settingtd["posType"]
 for i, v in next, rs:GetDescendants() do
-    if table.find({"Towers", "PlaceTower", "Place"}, v.Name) and v:IsA("Folder") then
+    if table.find({"Towers", "Tower"}, v.Name) and v:IsA("Folder") then
         towerFolder = v
     end
-    if table.find({"Upgrades"}, v.Name) and v:IsA("Folder") then
-        upgradesFolder = v
-    end
-    if table.find({"SpawnTower"}, v.Name) and (v:IsA("RemoteEvent") or v:IsA("RemoteFunction")) then
+    if table.find({"SpawnTower", "PlaceTower", "Place"}, v.Name) and (v:IsA("RemoteEvent") or v:IsA("RemoteFunction")) then
         remote = v
     end
     if table.find({"SellTower"}, v.Name) and (v:IsA("RemoteEvent") or v:IsA("RemoteFunction")) then
         sell = v
     end
 end
-for i, v in next, workspace:GetChildren() do
-    if table.find({"Towers"}, v.Name) and v:IsA("Folder") then
+for i, v in next, workspace:GetDescendants() do
+    if table.find({"Towers", "Tower"}, v.Name) and v:IsA("Folder") then
         towersPlaced = v
     end
 end
-if towerFolder == nil or upgradesFolder == nil or remote == nil or sell == nil then
+if towerFolder == nil or remote == nil or sell == nil or towersPlaced == nil then
     warn("Need manual or script no work")
     return
 end
