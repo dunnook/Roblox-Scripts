@@ -57,27 +57,6 @@ if modelCount_upgradefolder < folderCount_upgradefolder then
     warn("Upgrade Towers are folders")
     return
 end
-function findCheapest()
-    local cheapest = nil
-    local price = math.huge
-    for i, v in next, towerFolder:GetChildren() do
-        if v:IsA("Model") then
-            local priceInstance = v:FindFirstChild("Price", true)
-            if priceInstance then
-                if priceInstance.Value < price then
-                    cheapest = v
-                    price = priceInstance.Value
-                end
-            end
-        end
-    end
-    return cheapest
-end
-local default = findCheapest()
-if not default then
-    warn("Set default manually")
-    return
-end
 for i, v in next, towerFolder:GetChildren() do
     if v:IsA("Model") then
         local str = v.Name
@@ -87,17 +66,7 @@ for i, v in next, towerFolder:GetChildren() do
         table.insert(towers, str)
     end
 end
-for i, v in next, upgradesFolder:GetChildren() do
-    if v:IsA("Model") then
-        local str = v.Name
-        if v:FindFirstChild("Price", true) then
-            str = str..", "..v:FindFirstChild("Price", true).Value
-        end
-        table.insert(upgrades, str)
-    end
-end
 local args = {}
-local upgradeArgs = {}
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 local Window = Rayfield:CreateWindow({
     Name = "Rayfield Example Window",
