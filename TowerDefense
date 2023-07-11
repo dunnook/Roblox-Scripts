@@ -3,10 +3,8 @@ local remote
 local sell
 local towerFolder
 local towersPlaced
-local upgradesFolder
 local placeHolder
 local towers = {}
-local upgrades = {}
 local postype = _G.settingtd["posType"]
 for i, v in next, rs:GetDescendants() do
     if table.find({"Towers", "Tower"}, v.Name) and v:IsA("Folder") then
@@ -40,21 +38,8 @@ for i, v in next, towerFolder:GetChildren() do
         folderCount_towerfolder += 1
     end
 end
-local modelCount_upgradefolder = 0
-local folderCount_upgradefolder = 0
-for i, v in next, upgradesFolder:GetChildren() do
-    if v:IsA("Model") then
-        modelCount_upgradefolder += 1
-    elseif v:IsA("Folder") then
-        folderCount_upgradefolder += 1
-    end
-end
 if modelCount_towerfolder < folderCount_towerfolder then
     warn("Towers are folders")
-    return
-end
-if modelCount_upgradefolder < folderCount_upgradefolder then
-    warn("Upgrade Towers are folders")
     return
 end
 for i, v in next, towerFolder:GetChildren() do
@@ -114,7 +99,7 @@ Callback = function()
     elseif remote.ClassName == "RemoteEvent" then
         remote:FireServer(unpack(args))
     else
-        print("Wrong path")
+        warn("Wrong path")
     end
 end,
 })
