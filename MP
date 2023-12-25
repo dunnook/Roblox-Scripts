@@ -1,0 +1,735 @@
+if game.PlaceId ~= 8657766101 then return end
+local rs = game:GetService("ReplicatedStorage")
+local event = rs:WaitForChild("DefaultChatSystemChatEvents")
+local filter = event:WaitForChild("OnMessageDoneFiltering")
+local uis = game:GetService("UserInputService")
+local selectchar = rs.SelectACharacter
+local plrservice = game:GetService("Players")
+task.spawn(function()
+	game.Players.LocalPlayer.CharacterAdded:Connect(function(v)
+		local head = v:WaitForChild("Head")
+		local counter = head:WaitForChild("Counter")
+		counter:Destroy()
+	end)
+end)
+getgenv().clickCd = {
+	["cd5"] = 0.2
+}
+getgenv().clickCdStatus = {
+	["cd5"] = 0
+}
+getgenv().cooldowns = {
+	Moveset1 = {
+		cd1 = 3,
+		cd2 = 2,
+		cd3 = 4,
+		cd4 = 3
+	},
+	Moveset2 = {
+		cd1 = 3,
+		cd2 = 4,
+		cd3 = 3,
+		cd4 = 3
+	},
+	Moveset3 = {
+		cd1 = 1,
+		cd2 = 1,
+		cd3 = 1,
+		cd4 = 0
+	},
+	Moveset4 = {
+		cd1 = 1,
+		cd2 = 1,
+		cd3 = 1,
+		cd4 = 1
+	},
+	Moveset5 = {
+		cd1 = 1,
+		cd2 = 1,
+		cd3 = 1,
+		cd4 = 1
+	}
+}
+local plrnamekill = {}
+getgenv().mode = 1
+getgenv().killList = {{}, {}}
+getgenv().custom = false
+getgenv().nocd = false
+getgenv().multiplier = 1
+getgenv().killAuraRange = 0
+getgenv().multiply = false
+getgenv().killaura = false
+getgenv().god = false
+getgenv().run = false
+getgenv().trail = false
+getgenv().fight = false
+getgenv().poison = {}
+getgenv().combatAnim = 0
+function getchar()
+	for _, p in next, game.Players.LocalPlayer.Character:GetChildren() do
+		if p.ClassName == "LocalScript" and p:FindFirstChildOfClass("RemoteEvent") then
+			for i, _ in next, getsenv(p) do
+				if i == "MoveOne" then
+					return p
+				end
+			end
+		end
+	end
+end
+function copyTable(original)
+	local copy = {}
+	for i, v in next, original do
+		if type(v) == "table" then
+			v = copyTable(v)
+		end
+		copy[i] = v
+	end
+	return copy
+end
+function getClosest()
+	local dist, plr = math.huge, nil
+	local mouse = plrservice.LocalPlayer:GetMouse()
+	for i, v in next, plrservice:GetPlayers() do
+		if v ~= plrservice.LocalPlayer and v.Character.PrimaryPart then
+			local wtp = workspace.CurrentCamera:WorldToViewportPoint(v.Character.PrimaryPart.Position)
+			if (Vector2.new(wtp.x, wtp.y) - Vector2.new(mouse.x, mouse.y)).magnitude < dist then
+				plr = v
+				dist = (Vector2.new(wtp.x, wtp.y) - Vector2.new(mouse.x, mouse.y)).magnitude
+			end
+		end
+	end
+	return plr
+end
+function doAnim(path)
+	if path == nil then return end
+	local Anim = Instance.new("Animation")
+	Anim.AnimationId = tostring(path.AnimationId)
+	local Plr = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+	Plr:Play()
+end
+function getCharRange(range)
+	local overlapParams = OverlapParams.new()
+	overlapParams.FilterType = Enum.RaycastFilterType.Blacklist
+	overlapParams.FilterDescendantsInstances = {game.Players.LocalPlayer.Character}
+	local x = workspace:GetPartBoundsInBox(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, Vector3.new(range,range,range), overlapParams)
+	local chars = {}
+	for i, v in next, x do
+		if v.Parent.ClassName == "Model" and v.Parent:FindFirstChildOfClass("Humanoid") and v.Parent:FindFirstChildOfClass("Humanoid").Health > 0 and not table.find(chars, v.Parent) then
+			table.insert(chars, v.Parent)
+		end
+	end
+	return chars
+end
+function killAura()
+	repeat
+		task.wait()
+		for i, v in next, getCharRange(getgenv().killAuraRange) do
+			game:GetService("ReplicatedStorage").Characters.Wanda.Remotes.Overheadthrow:FireServer(v, nil)
+		end
+	until
+		getgenv().killaura == false
+end
+function fight(plr)
+	repeat
+		task.wait()
+		local ignores = {game.Players.LocalPlayer.Character, workspace.Map}
+		local overlapParams = OverlapParams.new()
+		overlapParams.FilterType = Enum.RaycastFilterType.Blacklist
+		overlapParams.FilterDescendantsInstances = {game.Players.LocalPlayer.Character}
+		local x = workspace:GetPartBoundsInBox(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, Vector3.new(30, 30, 30), overlapParams)
+		for i, v in next, x do
+			if v.Parent.ClassName == "Model" and v.Parent:FindFirstChildOfClass("Humanoid") and v.Parent:FindFirstChildOfClass("Humanoid").Health > 0 and v.Parent.Name ~= plr.Name then
+				game:GetService("ReplicatedStorage").Characters.Wanda.Remotes.Overheadthrow:FireServer(v.Parent, nil)
+			end
+		end
+	until
+		getgenv().fight == false
+end
+function move(tabl, status, cd, remote, args, anim, times)
+	if times == nil then
+		times = 1
+	end
+	local keys = {"One", "Two", "Three", "Four"}
+	if tabl["cd"..status] == 0 or getgenv().nocd == true then
+		print(tabl["cd"..status])
+		tabl["cd"..status] = 1
+		doAnim(anim)
+		for i=1, times do
+			if args ~= nil then
+				remote:FireServer(unpack(args))
+			else
+				remote:FireServer()
+			end
+		end
+		if keys[status] and plrservice.LocalPlayer.PlayerGui.Moveset.Frame.Hold:FindFirstChild(keys[status].."cd") then
+			plrservice.LocalPlayer.PlayerGui.Moveset.Frame.Hold[keys[status].."cd"].ImageTransparency = 0.5
+		end
+		local var = 0
+		if tabl["cd"..status] ~= 0 then
+			repeat
+				var += 0.1
+				task.wait(0.1)
+			until var >= cd["cd"..status]
+		end
+		print("hi")
+		if keys[status] and plrservice.LocalPlayer.PlayerGui.Moveset.Frame.Hold:FindFirstChild(keys[status].."cd") then
+			plrservice.LocalPlayer.PlayerGui.Moveset.Frame.Hold[keys[status].."cd"].ImageTransparency = 1
+		end
+		tabl["cd"..status] = 0
+	end
+end
+local cds = copyTable(getgenv().cooldowns)
+for x, y in cds do
+	for i, v in y do
+		cds[x][i] = 0
+	end
+end
+local skins = {}
+local skinSelect = {}
+for _, y in next, rs.Skins:GetChildren() do
+	for _, x in next, y:GetChildren() do
+		table.insert(skinSelect, x.Name..", "..y.Name)
+		skins[x.Name..", "..y.Name] = x
+	end
+end
+task.spawn(function()
+	local x = game.Players.LocalPlayer:WaitForChild("leaderstats").Kills
+	x:GetPropertyChangedSignal("Value"):Connect(function()
+		if getgenv().autoHeal == true then
+			local hp = plrservice.LocalPlayer.Character.Humanoid.Health
+			for i = 1, math.ceil((plrservice.LocalPlayer.Character.Humanoid.MaxHealth - hp)/20) do
+				rs.Characters.Rambo.Remotes.WoundHeal:FireServer()
+			end
+		end
+	end)
+end)
+task.spawn(function()
+	local x = {
+		"Death",
+		"ChangeChar",
+		"RemoteEv",
+		"SayMessageRequest"
+	}
+	local old
+	old = hookmetamethod(game, "__namecall", function(...)
+		local args = {...}
+		if getgenv().multiply == true and getnamecallmethod() == "FireServer" and not table.find(x, args[1].Name) then
+			for i=1, getgenv().multiplier do
+				old(...)
+			end
+		end
+		return old(...)
+	end)
+end)
+function custom(mode)
+	local a = plrservice.LocalPlayer.PlayerGui.Moveset.Frame.Hold
+	a.Onecd.ImageTransparency = 1
+	a.Twocd.ImageTransparency = 1
+	a.Threecd.ImageTransparency = 1
+	a.Fourcd.ImageTransparency = 1
+	a.Fivecd.ImageTransparency = 1
+	getgenv().mode = mode
+	if mode == 1 then
+		a.Emove.Text = "😭 help"
+		a.OneMove.Text = "noob punch"
+		a.TwoMove.Text = "TRAITOR😭"
+		a.ThreeMove.Text = "unnatural punch"
+		a.FourMove.Text = "armless gg"
+		a.FiveMove.Text = "EZ NOB 😎"
+	elseif mode == 2 then
+		a.OneMove.Text = "boy"
+		a.TwoMove.Text = "nooo"
+		a.ThreeMove.Text = "GG NOB"
+		a.FourMove.Text = "gg bro"
+		a.FiveMove.Text = "ABUSE GG"
+	elseif mode == 3 then
+		a.OneMove.Text = "gun😭"
+		a.TwoMove.Text = "litening jump"
+		a.ThreeMove.Text = "no gravity"
+		a.FourMove.Text = "boom😎"
+		a.FiveMove.Text = "eat"
+	elseif mode == 4 then
+		a.OneMove.Text = "stomp"
+		a.TwoMove.Text = "spicke"
+		a.ThreeMove.Text = "come"
+		a.FourMove.Text = "punch"
+		a.FiveMove.Text = "powr"
+	elseif mode == 5 then
+		a.OneMove.Text = "hug😄"
+		a.TwoMove.Text = "rizz🤤"
+		a.ThreeMove.Text = "nil"
+		a.FourMove.Text = "nil"
+		a.FiveMove.Text = "strech"
+	end
+end
+function counter()
+	repeat
+		task.wait(.1)
+		if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("CounterActivate", true) then
+			game.Players.LocalPlayer.Character:FindFirstChild("CounterActivate", true):FireServer()
+		end
+	until
+		getgenv().autocounter == false
+end
+function matchname(str)
+	for i, v in next, plrservice:GetChildren() do
+		if string.lower(v.Name):match(string.lower(str)) or string.lower(v.DisplayName):match(string.lower(str)) then
+			return v
+		end
+	end
+end
+task.spawn(function()
+	workspace.ChildAdded:Connect(function(plr)
+		task.wait()
+		if not plr:FindFirstChild("StarterCharacter") and plrservice:GetPlayerFromCharacter(plr) and table.find(getgenv().killList[1], plrservice:GetPlayerFromCharacter(plr).UserId) and getgenv().killList[2][table.find(getgenv().killList[1], plrservice:GetPlayerFromCharacter(plr).UserId)] == true then
+			local humanoid = plr:WaitForChild("Humanoid")
+			for i = 1, math.ceil(humanoid.Health / 10) do
+				rs.Characters.Combat.Remotes.ComboEndRemote:FireServer(plr)
+			end
+		end
+	end)
+end)
+task.spawn(function()
+	local old
+	old = hookmetamethod(game, "__newindex", newcclosure(function(...)
+		local args = {...}
+		if args[1].Name == "Humanoid" and args[2] == "WalkSpeed" and args[3] > 10 and getgenv().run == true  then
+			args[3] = 75
+			return old(unpack(args))
+		end
+		return old(...)
+	end))
+end)
+uis.InputBegan:Connect(function(k)
+	if getgenv().custom == true and not uis:GetFocusedTextBox() then
+		if k.KeyCode == Enum.KeyCode.E then
+			rs.Characters.Rambo.Remotes.WoundHeal:FireServer()
+		elseif k.KeyCode == Enum.KeyCode.LeftShift then
+			plrservice.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = 65
+		elseif k.KeyCode == Enum.KeyCode.R then
+			custom(1)
+		elseif k.KeyCode == Enum.KeyCode.T then
+			custom(2)
+		elseif k.KeyCode == Enum.KeyCode.Y then
+			custom(3)
+		elseif k.KeyCode == Enum.KeyCode.G then
+			custom(4)
+		elseif k.KeyCode == Enum.KeyCode.H then
+			custom(5)
+		end
+		if getgenv().mode == 1 then
+			local s = cds.Moveset1
+			local movecd = getgenv().cooldowns.Moveset1
+			if k.KeyCode == Enum.KeyCode.One then
+				move(s, 1, movecd, rs.Characters:FindFirstChild("A-Train").Remotes.BellyPunch, nil, rs.SelectACharacter["A-Train"]["A-train"].Animations.BellyPunch)
+			elseif k.KeyCode == Enum.KeyCode.Two then
+				move(s, 2, movecd, rs.Characters.Ghostface.Remotes.Double, {getClosest().Character}, rs.SelectACharacter.DarthVader.DarthVader.Animations.Pull, 4)
+			elseif k.KeyCode == Enum.KeyCode.Three then
+				move(s, 3, movecd, rs.Characters:FindFirstChild("A-Train").Remotes.Hammer)
+			elseif k.KeyCode == Enum.KeyCode.Four then
+				move(s, 4, movecd, rs.Characters.Kratos.Remotes.BladeHit, nil, rs.SelectACharacter.Zoom.Zoom.Animations.BarragePunches, 3)
+			elseif k.KeyCode == Enum.KeyCode.Five then
+				local f = math.random(1, 2)
+				local x = {rs.Characters.Ghostface.Remotes.Finisher, rs.Characters.SpiderMan.Remotes.TomFinisher}
+				x[f]:FireServer()
+			end
+		elseif getgenv().mode == 2 then
+			local s = cds.Moveset2
+			local movecd = getgenv().cooldowns.Moveset2
+			if k.KeyCode == Enum.KeyCode.One then
+				move(s, 1, movecd, rs.Characters.Steve_H.Remotes.Dustin, nil, rs.SelectACharacter.Eleven.Eleven.Animations.QuickChoke)
+			elseif k.KeyCode == Enum.KeyCode.Two then
+				move(s, 2, movecd, rs.Characters.Wanda.Remotes.HexBlast, nil, rs.SelectACharacter.Wanda.Wanda.Animations.HexBlast, 10)
+			elseif k.KeyCode == Enum.KeyCode.Three then
+				move(s, 3, movecd, rs.Characters.Moonknight.Remotes.SmackDown)
+			elseif k.KeyCode == Enum.KeyCode.Four then
+				move(s, 4, movecd, rs.Characters.Thanos.Remotes.EarthSpikes, nil, rs.SelectACharacter.DoctorStrange.DoctorStrange.Animations.Whip, 5)
+			elseif k.KeyCode == Enum.KeyCode.Five then
+				rs.Characters.SoldierBoy.Remotes.Finisher:FireServer()
+			end
+		elseif getgenv().mode == 3 then
+			local s = cds.Moveset3
+			local movecd = getgenv().cooldowns.Moveset3
+			if k.KeyCode == Enum.KeyCode.One then
+				move(s, 1, movecd, rs.Characters.DoctorStrange.Remotes.PortalBullets, nil, rs.SelectACharacter.DoctorStrange.DoctorStrange.Animations.OpenPortal, 5)
+			elseif k.KeyCode == Enum.KeyCode.Two then
+				move(s, 2, movecd, rs.Characters.DoctorStrange.Remotes.Bolts, nil, rs.SelectACharacter.DoctorStrange.DoctorStrange.Animations.Whip)
+			elseif k.KeyCode == Enum.KeyCode.Three then
+				move(s, 3, movecd, rs.Characters.DoctorStrange.Remotes.TendrillSlam)
+			elseif k.KeyCode == Enum.KeyCode.Four then
+				move(s, 4, movecd, rs.Characters.Steve.Remotes.TNT, nil, nil, 5)
+				task.wait(1)
+				rs.Characters.Vecna.Remotes.ForceField:FireServer()
+			elseif k.KeyCode == Enum.KeyCode.Five then
+				rs.Characters.Springtrap.Remotes.Finisher:FireServer()
+			end
+		elseif getgenv().mode == 4 then
+			local s = cds.Moveset4
+			local movecd = getgenv().cooldowns.Moveset4
+			if k.KeyCode == Enum.KeyCode.One then
+				move(s, 1, movecd, rs.Characters.Gigachad.Remotes.Lunge, nil, rs.SelectACharacter.GigaChad.Gigachad.Animations.Lunge)
+			elseif k.KeyCode == Enum.KeyCode.Two then
+				move(s, 2, movecd, rs.Characters.Rambo.Remotes.SpikeTrap, nil, rs.SelectACharacter.Rambo.Rambo.Animations.Stomp, 3)
+			elseif k.KeyCode == Enum.KeyCode.Three then
+				move(s, 3, movecd, rs.Characters.DarthVader.Remotes.Pull, nil, rs.SelectACharacter.DarthVader.DarthVader.Animations.Pull)
+			elseif k.KeyCode == Enum.KeyCode.Four then
+				move(s, 4, movecd, rs.Characters.Combat.Remotes.ComboEndRemote, {getClosest().Character}, rs.SelectACharacter.MoonKnight.MoonKnight.Animations.HeavyPunch)
+			elseif k.KeyCode == Enum.KeyCode.Five then
+				local a = math.random(1, 2)
+				if a == 1 then
+					rs.Characters:FindFirstChild("A-Train").Remotes.QuicksilverFinisher:FireServer()
+				else
+					rs.Characters.TheFlashCw.Remotes.Finisher:FireServer()
+				end
+			end
+		elseif getgenv().mode == 5 then
+			local s = cds.Moveset5
+			local movecd = getgenv().cooldowns.Moveset5
+			if k.KeyCode == Enum.KeyCode.One then
+				move(s, 1, movecd, rs.Characters.MrFantastic.Remotes.StretchGrab, {getClosest().Character})
+			elseif k.KeyCode == Enum.KeyCode.Two then
+				move(s, 1, movecd, rs.Characters.Creel.Remotes.VinePull, {getClosest().Character}, rs.SelectACharacter.DarthVader.DarthVader.Animations.Pull)
+			elseif k.KeyCode == Enum.KeyCode.Five then
+				rs.Characters.MrFantastic.Remotes.Finisher:FireServer()
+			end
+		end
+		if getgenv().nocd == true then
+			local a = getsenv(getchar())
+			for x, c in next, a do
+				if type(c) == "function" and getinfo(c).name:match("Move") then
+					for i, v in next, getupvalues(c) do
+						if type(v) == "boolean" and v == true and i < 5 then
+							setupvalue(c, i, false)
+						end
+					end
+				end
+			end
+		end
+	end
+	if k.UserInputType == Enum.UserInputType.MouseButton1 and getgenv().custom == true then
+		move(getgenv().clickCdStatus, 5, getgenv().clickCd, game:GetService("ReplicatedStorage").Characters.Combat.Remotes.Combo, {getCharRange(5)[1]}, game:GetService("ReplicatedStorage").Characters.CombatFolder.Animations["Combo"..getgenv().combatAnim + 1])
+		getgenv().combatAnim = (getgenv().combatAnim + 1) % 4
+	end
+end)
+uis.InputEnded:Connect(function(k)
+	if getgenv().custom == true and not uis:GetFocusedTextBox() then
+		if k.KeyCode == Enum.KeyCode.LeftShift then
+			plrservice.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = 10
+		end
+	end
+end)
+task.spawn(function()
+	while true do
+		task.wait(2.03)
+		pcall(function()
+			game:GetService("Players").LocalPlayer.Character.ReverseFlash.Phase:FireServer()
+		end)
+	end
+end)
+task.spawn(function()
+	while true do
+		task.wait(2)
+        if getgenv().custom then
+            pcall(function()
+                game:GetService("ReplicatedStorage").Characters.TheFlashCw.Remotes.FastestMan1:FireServer()
+            end)
+        end
+	end
+end)
+game.Players.LocalPlayer.Chatted:Connect(function(message)
+	local msg = message
+	local a = string.split(msg, " ")
+	if a[1] == "/kill" then
+		local x = false
+		if getgenv().multiply == true then
+			getgenv().multiply = false
+			x = true
+		end
+		if a[2] == "all" then
+			for i, v in next, plrservice:GetPlayers() do
+				if v.Name ~= game.Players.LocalPlayer.Name then
+					task.spawn(function()
+						for i = 1, math.ceil(v.Character:FindFirstChildOfClass("Humanoid").MaxHealth / 10) do
+                            rs.Characters.Combat.Remotes.ComboEndRemote:FireServer(v.Character)
+                        end
+					end)
+				end
+			end
+		else
+			local player = matchname(tostring(a[2]))
+			local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+			for i = 1, math.ceil(humanoid.MaxHealth / 10) do
+				rs.Characters.Combat.Remotes.ComboEndRemote:FireServer(player.Character)
+			end
+		end
+		if x == true then
+			getgenv().multiply = true
+		end
+	elseif a[1] == "/1v1" then
+		if a[2] == nil or a[2] == "off" then
+			getgenv().fight = false
+			return
+		end
+		getgenv().fight = true
+		fight(matchname(a[2]))
+	elseif a[1] == "/heal" then
+		local hp = plrservice.LocalPlayer.Character.Humanoid.Health
+		for i = 1, math.ceil((plrservice.LocalPlayer.Character.Humanoid.MaxHealth - hp)/20) do
+			rs.Characters.Rambo.Remotes.WoundHeal:FireServer()
+		end
+	elseif a[1] == "/loopkill" then
+		if a[2] == "all" then
+			for i, v in next, game.Players:GetPlayers() do
+				if v ~= game.Players.LocalPlayer then
+					if not table.find(getgenv().killList[1], v.UserId) then
+						table.insert(getgenv().killList[1], v.UserId)
+						table.insert(getgenv().killList[2], true)
+					else 
+						getgenv().killList[2][table.find(getgenv().killList[1], v.UserId)] = true
+					end
+					local humanoid = v.Character:FindFirstChildOfClass("Humanoid")
+					for i = 1, math.ceil(humanoid.Health / 10) do
+						rs.Characters.Combat.Remotes.ComboEndRemote:FireServer(v.Character)
+					end
+				end
+			end
+			return
+		end
+		local target = matchname(tostring(a[2]))
+		local humanoid = target.Character:FindFirstChildOfClass("Humanoid")
+		if table.find(getgenv().killList[1], target.UserId) then
+			getgenv().killList[2][table.find(getgenv().killList[1], target.UserId)] = true
+		else
+			table.insert(getgenv().killList[1], target.UserId)
+			table.insert(getgenv().killList[2], true)
+		end
+		for i = 1, math.ceil(humanoid.Health / 10) do
+			rs.Characters.Combat.Remotes.ComboEndRemote:FireServer(target.Character)
+		end
+	elseif a[1] == "/unloopkill" then
+		if a[2] == "all" then
+			for i, v in next, getgenv().killList[2] do
+				getgenv().killList[2][i] = false
+			end
+			return
+		end
+		local target = matchname(tostring(a[2]))
+		getgenv().killList[2][table.find(getgenv().killList[1], target.UserId)] = false
+	elseif a[1] == "/god" then
+		getgenv().god = true
+		repeat
+			task.wait(.1)
+			rs.Characters.Vecna.Remotes.ForceField:FireServer()
+		until
+		getgenv().god == false
+	elseif a[1] == "/ungod" then
+		getgenv().god = false
+	elseif a[1] == "/killaura" then
+		getgenv().killAuraRange = tonumber(a[2]) or 10
+		getgenv().killaura = false
+		if a[3] == "on" then
+			getgenv().killaura = true
+		end
+		killAura()
+	elseif a[1] == "/autoheal" then
+		getgenv().autoHeal = not getgenv().autoHeal
+	elseif a[1] == "/poison" then
+		if tostring(a[2]) == "others" then
+			for _, v in next, game:GetService("Players"):GetPlayers() do
+				table.insert(getgenv().poison, v) 
+				if v ~= game:GetService("Players").LocalPlayer then
+					task.spawn(function()
+						local plr = v
+						repeat
+							if not table.find(getgenv().poison, plr) then return end
+							rs.Characters.Wanda.Remotes.Overheadthrow:FireServer(plr.Character)
+							task.wait(10)
+						until table.find(getgenv().poison, plr) == nil
+					end)
+				end
+			end
+			return
+		end
+		local target = matchname(tostring(a[2]))
+		table.insert(getgenv().poison, target)
+		task.spawn(function()
+			repeat
+				if not table.find(getgenv().poison, target) then return end
+				rs.Characters.Wanda.Remotes.Overheadthrow:FireServer(target.Character)
+				task.wait(10)
+			until table.find(getgenv().poison, target) == nil
+		end)
+	elseif a[1] == "/cure" then
+		if tostring(a[2]) == "all" then
+			table.clear(getgenv().poison)
+		end
+		local target = matchname(tostring(a[2]))
+		table.remove(getgenv().poison, table.find(getgenv().poison, target))
+	end
+end)
+local characters = {"Custom Character"}
+for i, v in next, selectchar:GetChildren() do
+    if v.ClassName == "Model" and v.Name ~= "Thanos" and v.Name ~= "Wanda" then
+        table.insert(characters, v.Name)
+    end
+end
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({Name = "Marvellous Playground", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+local Tab = Window:MakeTab({
+	Name = "Main",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+Tab:AddDropdown({
+	Name = "Select Character",
+	Default = nil,
+	Options = characters,
+	Callback = function(Value)
+		getgenv().custom = false
+		getgenv().run = false
+		if Value == "Custom Character" then
+			selectchar.ChangeChar:FireServer(rs.Skins.ReverseFlash.Skin1, plrservice.LocalPlayer.PlayerGui.Menu.Frame.Select.SelectScript)
+			plrservice.LocalPlayer.CharacterAdded:Wait()
+			repeat task.wait() until game.Players.LocalPlayer.Character:WaitForChild("Head").Percentage.PlayerName.Text ~= "Player"
+			getgenv().custom = true
+			getgenv().run = true
+			repeat task.wait() until plrservice.LocalPlayer.PlayerGui:FindFirstChild("Moveset")
+			plrservice.LocalPlayer.Character.Animate.idle["Animation1"].AnimationId = "rbxassetid://12085305668"
+			local a = getsenv(getchar())
+			task.wait(.5)
+			setupvalue(a.MoveOne, 1, true)
+			setupvalue(a.MoveTwo, 1, true)
+			setupvalue(a.MoveThree, 1, true)
+			setupvalue(a.MoveFour, 1, true)
+			setupvalue(a.MoveFive, 1, true)
+			custom(1)
+			return
+		end
+		selectchar.ChangeChar:FireServer(selectchar:FindFirstChild(tostring(Value)), plrservice.LocalPlayer.PlayerGui.Menu.Frame.Select.SelectScript)
+	end    
+})
+Tab:AddDropdown({
+	Name = "Select skin",
+	Default = nil,
+	Options = skinSelect,
+	Callback = function(Value)
+		getgenv().custom = false
+		selectchar.ChangeChar:FireServer(skins[Value], plrservice.LocalPlayer.PlayerGui.Menu.Frame.Select.SelectScript)
+	end    
+})
+Tab:AddToggle({
+	Name = "No cooldown",
+	Default = false,
+	Callback = function(Value)
+		getgenv().nocd = Value
+	end    
+})
+Tab:AddToggle({
+	Name = "Auto Counter",
+	Default = false,
+	Callback = function(Value)
+		getgenv().autocounter = Value
+		counter()
+	end    
+})
+Tab:AddTextbox({
+	Name = "Kill aura range",
+	Default = 1,
+	TextDisappear = false,
+	Callback = function(Value)
+		getgenv().killAuraRange = tonumber(Value)
+	end	  
+})
+Tab:AddToggle({
+	Name = "Kill aura",
+	Default = false,
+	Callback = function(Value)
+		getgenv().killaura = Value
+		killAura()
+	end    
+})
+Tab:AddTextbox({
+	Name = "Damage multiplier",
+	Default = 1,
+	TextDisappear = false,
+	Callback = function(Value)
+		getgenv().multiplier = tonumber(Value)
+	end	  
+})
+Tab:AddToggle({
+	Name = "Damage multiplier",
+	Default = false,
+	Callback = function(Value)
+		getgenv().multiply = Value
+	end    
+})
+Tab:AddToggle({
+	Name = "Faster run",
+	Default = false,
+	Callback = function(Value)
+		getgenv().run = Value
+	end    
+})
+Tab:AddToggle({
+	Name = "Tnt trail",
+	Default = false,
+	Callback = function(Value)
+		getgenv().trail = Value
+		while true do
+			if getgenv().trail == false then return end
+			rs.Characters.Vecna.Remotes.ForceField:FireServer()
+			task.wait(.1)
+			rs.Characters.Steve.Remotes.TNT:FireServer()
+		end
+	end    
+})
+Tab:AddButton({
+	Name = "Kill all",
+	Callback = function()
+		local x = false
+		if getgenv().multiply == true then
+			getgenv().multiply = false
+			x = true
+		end
+		for i, v in next, plrservice:GetPlayers() do
+			if v.Name ~= game.Players.LocalPlayer.Name and v.Character and v.Character:FindFirstChild("Humanoid") then
+				task.spawn(function()
+					for i = 1, math.ceil(v.Character:FindFirstChild("Humanoid").Health / 15) do
+						game:GetService("ReplicatedStorage").Characters.Wanda.Remotes.Overheadthrow:FireServer(v.Character, nil)
+					end
+					return
+				end)
+			end
+		end
+		if x == true then
+			getgenv().multiply = true
+		end
+  	end    
+})
+Tab:AddButton({
+	Name = "Make everyone less than half hp",
+	Callback = function()
+		local x = false
+		if getgenv().multiply == true then
+			getgenv().multiply = false
+			x = true
+		end
+		for i, v in next, plrservice:GetPlayers() do
+			if v.Name ~= game.Players.LocalPlayer.Name then
+				local humanoid = v.Character:FindFirstChildOfClass("Humanoid")
+				task.spawn(function()
+					if humanoid.Health >= humanoid.MaxHealth/2 then
+						local curhp = humanoid.Health
+						local ting = curhp - humanoid.MaxHealth * 2 / 5
+						for i=1, math.ceil(ting/15) do
+							game:GetService("ReplicatedStorage").Characters.Wanda.Remotes.Overheadthrow:FireServer(v.Character, nil)
+						end
+					end
+				end)
+			end
+		end
+		if x == true then
+			getgenv().multiply = true
+		end
+  	end    
+})
