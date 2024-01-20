@@ -504,8 +504,9 @@ function getPick()
 							end)
 							x.Pick.TouchTap:Connect(function()
 								if x.RealInstance.Value ~= nil then
+									local val = x.RealInstance.Value
 									PickInstance:Destroy()
-									return x.RealInstance.Value
+									return val
 								end
 							end)
 						else
@@ -516,8 +517,9 @@ function getPick()
 							end)
 							x.Pick.MouseButton1Click:Connect(function()
 								if x.RealInstance.Value ~= nil then
+									local val = x.RealInstance.Value
 									PickInstance:Destroy()
-									return x.RealInstance.Value
+									return val
 								end
 							end)
 						end
