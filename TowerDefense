@@ -1,105 +1,759 @@
+function getPick()	
+	local PickInstance = Instance.new("ScreenGui")
+	local Frame = Instance.new("Frame")
+	local Explorer = Instance.new("ScrollingFrame")
+	local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+	local UICorner = Instance.new("UICorner")
+	local Templates = Instance.new("Folder")
+	local Element = Instance.new("Frame")
+	local Pick = Instance.new("TextButton")
+	local UIAspectRatioConstraint_2 = Instance.new("UIAspectRatioConstraint")
+	local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+	local UICorner_2 = Instance.new("UICorner")
+	local InstanceName = Instance.new("TextLabel")
+	local UITextSizeConstraint_2 = Instance.new("UITextSizeConstraint")
+	local ShowChildren = Instance.new("TextButton")
+	local UIAspectRatioConstraint_3 = Instance.new("UIAspectRatioConstraint")
+	local UICorner_3 = Instance.new("UICorner")
+	local UITextSizeConstraint_3 = Instance.new("UITextSizeConstraint")
+	local Children = Instance.new("Folder")
+	local UIAspectRatioConstraint_4 = Instance.new("UIAspectRatioConstraint")
+	local ClassImage = Instance.new("ImageLabel")
+	local UIAspectRatioConstraint_5 = Instance.new("UIAspectRatioConstraint")
+	local UIAspectRatioConstraint_6 = Instance.new("UIAspectRatioConstraint")
+	local UIAspectRatioConstraint_7 = Instance.new("UIAspectRatioConstraint")
+
+	PickInstance.Name = "PickInstance"
+	PickInstance.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+	Frame.Parent = PickInstance
+	Frame.BackgroundColor3 = Color3.fromRGB(67, 67, 67)
+	Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Frame.BorderSizePixel = 0
+	Frame.Position = UDim2.new(0.28594771, 0, 0.17395626, 0)
+	Frame.Size = UDim2.new(0, 419, 0, 262)
+
+	Explorer.Name = "Explorer"
+	Explorer.Parent = Frame
+	Explorer.Active = true
+	Explorer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Explorer.BackgroundTransparency = 1.000
+	Explorer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Explorer.BorderSizePixel = 0
+	Explorer.Size = UDim2.new(1, 0, 1, 0)
+	Explorer.CanvasSize = UDim2.new(1.02499998, 0, 1.5, 0)
+	Explorer.HorizontalScrollBarInset = Enum.ScrollBarInset.ScrollBar
+
+	UIAspectRatioConstraint.Parent = Explorer
+	UIAspectRatioConstraint.AspectRatio = 1.599
+
+	UICorner.Parent = Frame
+
+	Templates.Name = "Templates"
+	Templates.Parent = Frame
+
+	Element.Name = "Element"
+	Element.Parent = Templates
+	Element.Active = true
+	Element.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Element.BackgroundTransparency = 1.000
+	Element.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Element.BorderSizePixel = 0
+	Element.Size = UDim2.new(1, 0, 0, 50)
+	Element.Visible = false
+
+	Pick.Name = "Pick"
+	Pick.Parent = Element
+	Pick.BackgroundColor3 = Color3.fromRGB(179, 179, 179)
+	Pick.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Pick.BorderSizePixel = 0
+	Pick.LayoutOrder = 1
+	Pick.Position = UDim2.new(0.821599066, 0, 0.0666667148, 0)
+	Pick.Size = UDim2.new(0.100835323, 0, -1.15499997, 100)
+	Pick.Font = Enum.Font.SourceSans
+	Pick.Text = "Pick path"
+	Pick.TextColor3 = Color3.fromRGB(0, 0, 0)
+	Pick.TextScaled = true
+	Pick.TextSize = 14.000
+	Pick.TextWrapped = true
+
+	UIAspectRatioConstraint_2.Parent = Pick
+
+	UITextSizeConstraint.Parent = Pick
+	UITextSizeConstraint.MaxTextSize = 14
+
+	UICorner_2.Parent = Pick
+
+	InstanceName.Name = "InstanceName"
+	InstanceName.Parent = Element
+	InstanceName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	InstanceName.BackgroundTransparency = 1.000
+	InstanceName.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	InstanceName.BorderSizePixel = 0
+	InstanceName.Position = UDim2.new(0.238663554, 0, 0.0599999987, 0)
+	InstanceName.Size = UDim2.new(0.563842475, 0, 1, 0)
+	InstanceName.Font = Enum.Font.SourceSans
+	InstanceName.Text = "Instance Name"
+	InstanceName.TextColor3 = Color3.fromRGB(0, 0, 0)
+	InstanceName.TextScaled = true
+	InstanceName.TextSize = 1.000
+	InstanceName.TextWrapped = true
+	InstanceName.TextXAlignment = Enum.TextXAlignment.Left
+
+	UITextSizeConstraint_2.Parent = InstanceName
+	UITextSizeConstraint_2.MaxTextSize = 25
+
+	ShowChildren.Name = "ShowChildren"
+	ShowChildren.Parent = Element
+	ShowChildren.BackgroundColor3 = Color3.fromRGB(67, 67, 67)
+	ShowChildren.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	ShowChildren.BorderSizePixel = 0
+	ShowChildren.LayoutOrder = 1
+	ShowChildren.Position = UDim2.new(0.0149164675, 0, 0.300000012, 0)
+	ShowChildren.Size = UDim2.new(0.0811455846, 0, -0.769999981, 100)
+	ShowChildren.Visible = false
+	ShowChildren.Font = Enum.Font.SourceSans
+	ShowChildren.Text = ">"
+	ShowChildren.TextColor3 = Color3.fromRGB(255, 255, 255)
+	ShowChildren.TextScaled = true
+	ShowChildren.TextSize = 14.000
+	ShowChildren.TextWrapped = true
+
+	UIAspectRatioConstraint_3.Parent = ShowChildren
+
+	UICorner_3.Parent = ShowChildren
+
+	UITextSizeConstraint_3.Parent = ShowChildren
+	UITextSizeConstraint_3.MaxTextSize = 14
+
+	Children.Name = "Children"
+	Children.Parent = Element
+
+	UIAspectRatioConstraint_4.Parent = Element
+	UIAspectRatioConstraint_4.AspectRatio = 8.380
+
+	ClassImage.Name = "ClassImage"
+	ClassImage.Parent = Element
+	ClassImage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	ClassImage.BackgroundTransparency = 1.000
+	ClassImage.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	ClassImage.BorderSizePixel = 0
+	ClassImage.Position = UDim2.new(0.102625296, 0, 0.0599999987, 0)
+	ClassImage.Size = UDim2.new(0, 50, 1, 0)
+	ClassImage.Image = "rbxasset://textures/ui/GuiImagePlaceholder.png"
+	ClassImage.ImageTransparency = 1.000
+
+	UIAspectRatioConstraint_5.Parent = ClassImage
+
+	UIAspectRatioConstraint_6.Parent = Frame
+	UIAspectRatioConstraint_6.AspectRatio = 1.599
+
+	UIAspectRatioConstraint_7.Parent = PickInstance
+	UIAspectRatioConstraint_7.AspectRatio = 2.433
+
+	local function main()
+		local ExplorerIndex = {
+			["Accessory"] = 32;
+			["Accoutrement"] = 32;
+			["AdService"] = 73;
+			["Animation"] = 60;
+			["AnimationController"] = 60;
+			["AnimationTrack"] = 60;
+			["Animator"] = 60;
+			["ArcHandles"] = 56;
+			["AssetService"] = 72;
+			["Attachment"] = 34;
+			["Backpack"] = 20;
+			["BadgeService"] = 75;
+			["BallSocketConstraint"] = 89;
+			["BillboardGui"] = 64;
+			["BinaryStringValue"] = 4;
+			["BindableEvent"] = 67;
+			["BindableFunction"] = 66;
+			["BlockMesh"] = 8;
+			["BloomEffect"] = 90;
+			["BlurEffect"] = 90;
+			["BodyAngularVelocity"] = 14;
+			["BodyForce"] = 14;
+			["BodyGyro"] = 14;
+			["BodyPosition"] = 14;
+			["BodyThrust"] = 14;
+			["BodyVelocity"] = 14;
+			["BoolValue"] = 4;
+			["BoxHandleAdornment"] = 54;
+			["BrickColorValue"] = 4;
+			["Camera"] = 5;
+			["CFrameValue"] = 4;
+			["CharacterMesh"] = 60;
+			["Chat"] = 33;
+			["ClickDetector"] = 41;
+			["CollectionService"] = 30;
+			["Color3Value"] = 4;
+			["ColorCorrectionEffect"] = 90;
+			["ConeHandleAdornment"] = 54;
+			["Configuration"] = 58;
+			["ContentProvider"] = 72;
+			["ContextActionService"] = 41;
+			["CoreGui"] = 46;
+			["CoreScript"] = 18;
+			["CornerWedgePart"] = 1;
+			["CustomEvent"] = 4;
+			["CustomEventReceiver"] = 4;
+			["CylinderHandleAdornment"] = 54;
+			["CylinderMesh"] = 8;
+			["CylindricalConstraint"] = 89;
+			["Debris"] = 30;
+			["Decal"] = 7;
+			["Dialog"] = 62;
+			["DialogChoice"] = 63;
+			["DoubleConstrainedValue"] = 4;
+			["Explosion"] = 36;
+			["FileMesh"] = 8;
+			["Fire"] = 61;
+			["Flag"] = 38;
+			["FlagStand"] = 39;
+			["FloorWire"] = 4;
+			["Folder"] = 70;
+			["ForceField"] = 37;
+			["Frame"] = 48;
+			["GamePassService"] = 19;
+			["Glue"] = 34;
+			["GuiButton"] = 52;
+			["GuiMain"] = 47;
+			["GuiService"] = 47;
+			["Handles"] = 53;
+			["HapticService"] = 84;
+			["Hat"] = 45;
+			["HingeConstraint"] = 89;
+			["Hint"] = 33;
+			["HopperBin"] = 22;
+			["HttpService"] = 76;
+			["Humanoid"] = 9;
+			["ImageButton"] = 52;
+			["ImageLabel"] = 49;
+			["InsertService"] = 72;
+			["IntConstrainedValue"] = 4;
+			["IntValue"] = 4;
+			["JointInstance"] = 34;
+			["JointsService"] = 34;
+			["Keyframe"] = 60;
+			["KeyframeSequence"] = 60;
+			["KeyframeSequenceProvider"] = 60;
+			["Lighting"] = 13;
+			["LineHandleAdornment"] = 54;
+			["LocalScript"] = 18;
+			["LogService"] = 87;
+			["MarketplaceService"] = 46;
+			["Message"] = 33;
+			["Model"] = 2;
+			["ModuleScript"] = 71;
+			["Motor"] = 34;
+			["Motor6D"] = 34;
+			["MoveToConstraint"] = 89;
+			["NegateOperation"] = 78;
+			["NetworkClient"] = 16;
+			["NetworkReplicator"] = 29;
+			["NetworkServer"] = 15;
+			["NumberValue"] = 4;
+			["ObjectValue"] = 4;
+			["Pants"] = 44;
+			["ParallelRampPart"] = 1;
+			["Part"] = 1;
+			["ParticleEmitter"] = 69;
+			["PartPairLasso"] = 57;
+			["PathfindingService"] = 37;
+			["Platform"] = 35;
+			["Player"] = 12;
+			["PlayerGui"] = 46;
+			["Players"] = 21;
+			["PlayerScripts"] = 82;
+			["PointLight"] = 13;
+			["PointsService"] = 83;
+			["Pose"] = 60;
+			["PrismaticConstraint"] = 89;
+			["PrismPart"] = 1;
+			["PyramidPart"] = 1;
+			["RayValue"] = 4;
+			["ReflectionMetadata"] = 86;
+			["ReflectionMetadataCallbacks"] = 86;
+			["ReflectionMetadataClass"] = 86;
+			["ReflectionMetadataClasses"] = 86;
+			["ReflectionMetadataEnum"] = 86;
+			["ReflectionMetadataEnumItem"] = 86;
+			["ReflectionMetadataEnums"] = 86;
+			["ReflectionMetadataEvents"] = 86;
+			["ReflectionMetadataFunctions"] = 86;
+			["ReflectionMetadataMember"] = 86;
+			["ReflectionMetadataProperties"] = 86;
+			["ReflectionMetadataYieldFunctions"] = 86;
+			["RemoteEvent"] = 80;
+			["RemoteFunction"] = 79;
+			["ReplicatedFirst"] = 72;
+			["ReplicatedStorage"] = 72;
+			["RightAngleRampPart"] = 1;
+			["RocketPropulsion"] = 14;
+			["RodConstraint"] = 89;
+			["RopeConstraint"] = 89;
+			["Rotate"] = 34;
+			["RotateP"] = 34;
+			["RotateV"] = 34;
+			["RunService"] = 66;
+			["ScreenGui"] = 47;
+			["Script"] = 6;
+			["ScrollingFrame"] = 48;
+			["Seat"] = 35;
+			["Selection"] = 55;
+			["SelectionBox"] = 54;
+			["SelectionPartLasso"] = 57;
+			["SelectionPointLasso"] = 57;
+			["SelectionSphere"] = 54;
+			["ServerScriptService"] = 0;
+			["ServerStorage"] = 74;
+			["Shirt"] = 43;
+			["ShirtGraphic"] = 40;
+			["SkateboardPlatform"] = 35;
+			["Sky"] = 28;
+			["SlidingBallConstraint"] = 89;
+			["Smoke"] = 59;
+			["Snap"] = 34;
+			["Sound"] = 11;
+			["SoundService"] = 31;
+			["Sparkles"] = 42;
+			["SpawnLocation"] = 25;
+			["SpecialMesh"] = 8;
+			["SphereHandleAdornment"] = 54;
+			["SpotLight"] = 13;
+			["SpringConstraint"] = 89;
+			["StarterCharacterScripts"] = 82;
+			["StarterGear"] = 20;
+			["StarterGui"] = 46;
+			["StarterPack"] = 20;
+			["StarterPlayer"] = 88;
+			["StarterPlayerScripts"] = 82;
+			["Status"] = 2;
+			["StringValue"] = 4;
+			["SunRaysEffect"] = 90;
+			["SurfaceGui"] = 64;
+			["SurfaceLight"] = 13;
+			["SurfaceSelection"] = 55;
+			["Team"] = 24;
+			["Teams"] = 23;
+			["TeleportService"] = 81;
+			["Terrain"] = 65;
+			["TerrainRegion"] = 65;
+			["TestService"] = 68;
+			["TextBox"] = 51;
+			["TextButton"] = 51;
+			["TextLabel"] = 50;
+			["Texture"] = 10;
+			["TextureTrail"] = 4;
+			["Tool"] = 17;
+			["TouchTransmitter"] = 37;
+			["TrussPart"] = 1;
+			["UnionOperation"] = 77;
+			["UserInputService"] = 84;
+			["Vector3Value"] = 4;
+			["VehicleSeat"] = 35;
+			["VelocityMotor"] = 34;
+			["WedgePart"] = 1;
+			["Weld"] = 34;
+			["Workspace"] = 19;
+		}
+		local function makeImageLabel(index, parent)
+			local function iconDehash(h)
+				return math.floor(h/14%14),math.floor(h%14)
+			end
+			local MAP_ID = 418720155
+			local iconMap = 'http://www.roblox.com/asset/?id=' .. MAP_ID
+			local function Create(ty,data)
+				local obj
+				if type(ty) == 'string' then
+					obj = Instance.new(ty)
+				else
+					obj = ty
+				end
+				for k, v in pairs(data) do
+					if type(k) == 'number' then
+						v.Parent = obj
+					else
+						obj[k] = v
+					end
+				end
+				return obj
+			end
+			local function Icon(IconFrame,index)
+				local row,col = iconDehash(index)
+				local mapSize = Vector2.new(256,256)
+				local pad,border = 2,1
+				local iconSize = 16
+		
+				local class = 'Frame'
+				if type(IconFrame) == 'string' then
+					class = IconFrame
+					IconFrame = nil
+				end
+		
+				if not IconFrame then
+					IconFrame = Create(class,{
+						Name = "Icon";
+						BackgroundTransparency = 1;
+						ClipsDescendants = true;
+						Create('ImageLabel',{
+							Name = "IconMap";
+							Active = false;
+							BackgroundTransparency = 1;
+							Image = iconMap;
+							Size = UDim2.new(mapSize.x/iconSize,0,mapSize.y/iconSize,0);
+							ResampleMode = Enum.ResamplerMode.Pixelated;
+						});
+					})
+				end
+		
+				IconFrame.IconMap.Position = UDim2.new(-col - (pad*(col+1) + border)/iconSize,0,-row - (pad*(row+1) + border)/iconSize,0)
+				return IconFrame
+			end
+			Create(Icon("ImageLabel", index), {
+				Name = "Expand";
+				Position = UDim2.new(0,0, 0, 0);
+				Size = UDim2.new(1,0,1,0),
+				Parent = parent
+			})
+		end
+		local function updateList()
+			local list = {
+				["ReplicatedStorage"] = {
+		
+				}
+			}
+			local function updateMembers(path, indent, parent) 
+				local list = {}
+				for i, v in next, path:GetChildren() do
+					local name = v.Name
+					local class = v.ClassName
+					local item = v
+					if #v:GetChildren() > 0 then
+						v = updateMembers(v, indent+1, list)
+					end
+					list[i] = {["Name"] = name, ["Value"] = v, ["Class"] = class, ["Indent"] = indent, ["Parent"] = parent, ["Object"] = item}
+				end
+				return list
+			end
+			for i, v in next, game:GetService("ReplicatedStorage"):GetChildren() do
+				table.insert(list.ReplicatedStorage, {["Name"] = v.Name, ["Value"] = updateMembers(v, 1, nil), ["Class"] = v.ClassName, ["Indent"] = 0, ["Parent"] = game.ReplicatedStorage, ["Expanded"] = false, ["Object"] = v})
+			end
+			return list
+		end
+		local explorer = Frame.Explorer
+		local contents = updateList().ReplicatedStorage
+		local maxIndent = 0
+		local maxElements = 5
+		local upd = {
+			["Update"] = nil
+		}
+		local function makeElement(info)
+			local element = Frame.Templates.Element
+			local pick = element.Pick
+			local showChildren = element.ShowChildren
+			local function place(val, parent, parent1)
+				for i, v in next, val do
+					if typeof(i) ~= "string" then
+						local expand = false
+						local x = element:Clone()
+						x.Visible = true
+						x.Position = UDim2.new(0, x.Position.X.Offset + v["Indent"] * 25, 0, (#explorer:GetChildren()-1) * element.Size.Y.Offset)
+						x.InstanceName.Text = v["Name"]
+						x.Name = v["Name"]
+						if x:FindFirstChild("RealInstance") == nil then
+							local realIns = Instance.new("ObjectValue", x)
+							realIns.Name = "RealInstance"
+						end
+						x.RealInstance.Value = v["Object"]
+						if v["Expanded"] and v["Expanded"] == true then
+							x.ShowChildren.Rotation = 90
+						else
+							x.ShowChildren.Rotation = 0
+						end
+						if parent1 and parent1["Expanded"] == true then
+							expand = true
+						end
+						if maxElements < #explorer:GetChildren()-1 then
+							explorer.CanvasSize = UDim2.new(explorer.CanvasSize.X.Scale, 0, explorer.CanvasSize.Y.Scale + 0.5, 0)
+							maxElements += 3	
+						end
+						if maxIndent < v["Indent"] then
+							explorer.CanvasSize = UDim2.new(1 + 0.05 * v["Indent"], 0, explorer.CanvasSize.Y.Scale, 0)
+							maxIndent = v["Indent"]
+						end
+						if v["Indent"] > 0  then
+							x.Visible = false
+						end
+						if ExplorerIndex[v["Class"]] ~= nil then
+							makeImageLabel(ExplorerIndex[v["Class"]], x.ClassImage)
+						else
+							makeImageLabel(0, x.ClassImage)
+						end
+						if parent == nil or expand then
+							x.Visible = true
+							x.Parent = explorer
+						end
+						if game:GetService("UserInputService").TouchEnabled then
+							x.ShowChildren.TouchTap:Connect(function()
+								v["Expanded"] = not v["Expanded"]
+								upd["Update"]()
+								x:Destroy()
+							end)
+							x.Pick.TouchTap:Connect(function()
+								if x.RealInstance.Value ~= nil then
+									PickInstance:Destroy()
+									return x.RealInstance.Value
+								end
+							end)
+						else
+							x.ShowChildren.MouseButton1Click:Connect(function()
+								v["Expanded"] = not v["Expanded"]
+								upd["Update"]()
+								x:Destroy()
+							end)
+							x.Pick.MouseButton1Click:Connect(function()
+								if x.RealInstance.Value ~= nil then
+									PickInstance:Destroy()
+									return x.RealInstance.Value
+								end
+							end)
+						end
+						if typeof(v["Value"]) == "table" then
+							place(v["Value"], x, val[i])
+							x.ShowChildren.Visible = true
+							x.Pick.Visible = true
+							if not v["Expanded"] then
+								v["Expanded"] = false
+							end
+							continue
+						end
+					end
+				end
+			end
+			place(info)
+		end
+		local function make()
+			for i, v in next, contents do
+				makeElement({[1] = v})
+			end
+		end
+		local function update()
+			for i, v in next, explorer:GetChildren() do
+				if v.Name ~= "UIAspectRatioConstraint" then
+					v:Destroy()
+				end
+			end
+			make()
+		end
+		upd["Update"] = update
+		make()
+	end
+	coroutine.wrap(main)()
+end
+local data = {}
 local rs = game:GetService("ReplicatedStorage")
 local remote
-local sell
 local towerFolder
-local towersPlaced
 local placeHolder
 local towers = {}
-local postype = _G.settingtd["posType"]
-for i, v in next, rs:GetDescendants() do
-    if table.find({"Towers", "Tower"}, v.Name) and v:IsA("Folder") then
-        towerFolder = v
-    end
-    if table.find({"SpawnTower", "PlaceTower", "Place"}, v.Name) and (v:IsA("RemoteEvent") or v:IsA("RemoteFunction")) then
-        remote = v
-    end
-    if table.find({"SellTower"}, v.Name) and (v:IsA("RemoteEvent") or v:IsA("RemoteFunction")) then
-        sell = v
-    end
-end
-for i, v in next, workspace:GetDescendants() do
-    if table.find({"Towers", "Tower"}, v.Name) and v:IsA("Folder") then
-        towersPlaced = v
-    end
-end
-if towerFolder == nil or remote == nil or sell == nil or towersPlaced == nil then
-    warn("Need manual or script no work")
-    return
-end
-if towersPlaced == nil then
-    warn("Need manual for towers placed folder")
-end
-local modelCount_towerfolder = 0
-local folderCount_towerfolder = 0
-for i, v in next, towerFolder:GetChildren() do
-    if v:IsA("Model") then
-        modelCount_towerfolder += 1
-    elseif v:IsA("Folder") then
-        folderCount_towerfolder += 1
-    end
-end
-if modelCount_towerfolder < folderCount_towerfolder then
-    warn("Towers are folders")
-    return
-end
-for i, v in next, towerFolder:GetChildren() do
-    if v:IsA("Model") then
-        local str = v.Name
-        if v:FindFirstChild("Price", true) then
-            str = str..", "..v:FindFirstChild("Price", true).Value
-        end
-        table.insert(towers, str)
-    end
-end
+local posType
 local args = {}
-local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
-local Window = Rayfield:CreateWindow({
-    Name = "Rayfield Example Window",
-    LoadingTitle = "Rayfield Interface Suite",
-    LoadingSubtitle = "by Sirius",
-    ConfigurationSaving = {
-        Enabled = false   ,
-        FolderName = nil, -- Create a custom folder for your hub/game
-        FileName = "Big Hub"
-    },
-    Discord = {
-        Enabled = false,
-        Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD.
-        RememberJoins = true -- Set this to false to make them join the discord every time they load it up
-    },
-    KeySystem = false, -- Set this to true to use our key system
-    KeySettings = {
-        Title = "Sirius Hub",
-        Subtitle = "Key System",
-        Note = "Join the discord (discord.gg/sirius)",
-        FileName = "SiriusKey",
-        SaveKey = true,
-        GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
-        Key = "Hello"
-    }
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Window = Fluent:CreateWindow({
+	Title = "Fluent " .. Fluent.Version,
+	SubTitle = "by dawid",
+	TabWidth = 160,
+	Size = UDim2.fromOffset(580, 460),
+	Acrylic = false,
+	Theme = "Dark",
+	MinimizeKey = Enum.KeyCode.LeftAlt -- Used when theres no MinimizeKeybind
 })
-local Tab = Window:CreateTab("Tab Example", 4483362458) -- Title, Image
+local Tabs = {
+	Main = Window:AddTab({ Title = "Main", Icon = "" }),
+}
+local Options = Fluent.Options
+if writefile ~= nil then 
+	function save()
+		makefolder("TowerDefenseHax")
+		data.towerFolder = towerFolder
+		data.remote = remote
+		data.posType = posType
+		local newdata = game:GetService("HttpService"):JSONEncode(data)
+		writefile("TowerDefenseHax/"..game.PlaceId, newdata)
+	end
+	save()
+else
+	Fluent:Notify({
+		Title = "Notification",
+		Content = "lol ur executor cant save files",
+		SubContent = "SubContent",
+		Duration = 3
+	})
+end
 
-local Dropdown2 = Tab:CreateDropdown({
-    Name = "Choose tower",
-    Options = towers,
-    CurrentOption = "None",
-    Flag = "Dropdown2", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-    Callback = function(Option)
-        local towerName = string.split(Option[1], ",")[1]
-        args[1] = towerName or tostring(Option[1])
-    end,
+if readfile ~= nil then
+	local newdata = game:GetService("HttpService"):JSONDecode(readfile("TowerDefenseHax/"..game.PlaceId))
+	if newdata then
+		towerFolder = newdata["towerFolder"]
+		remote = newdata["remote"]
+		posType = newdata["posType"]
+	end
+else
+	Fluent:Notify({
+		Title = "Notification",
+		Content = "lol ur executor cant read files",
+		SubContent = "SubContent",
+		Duration = 5
+	})
+end
+if towerFolder == nil then
+	while true do
+		Fluent:Notify({
+			Title = "Action",
+			Content = "Pick an instance where all the tower is after this message dissappears",
+			SubContent = "SubContent", -- Optional
+			Duration = 3 -- Set to nil to make the notification not disappear
+		})
+		task.wait(3)
+		towerFolder = getPick()
+		repeat task.wait() until towerFolder ~= nil
+		if #towerFolder:GetChildren() == 0 then
+			Window:Dialog({
+				Title = "Error",
+				Content = "Picked instance has no children, restart pick?",
+				Buttons = {
+					{
+						Title = "Confirm",
+						Callback = function()
+							print("Restarting")
+						end
+					},
+					{
+						Title = "Cancel",
+						Callback = function()
+							return
+						end
+					}
+				}
+			})
+		else
+			break
+		end
+	end
+end
+if remote == nil then
+	while true do
+		Fluent:Notify({
+			Title = "Action",
+			Content = "Pick an instance where placing towers remote is",
+			SubContent = "SubContent", -- Optional
+			Duration = 3 -- Set to nil to make the notification not disappear
+		})
+		task.wait(3)
+		remote = getPick()
+		repeat task.wait() until remote ~= nil
+		if remote.ClassName ~= "RemoteEvent" or remote.ClassName ~= "RemoteFunction" then
+			Window:Dialog({
+				Title = "Error",
+				Content = "Picked instance is not a remote, restart pick?",
+				Buttons = {
+					{
+						Title = "Confirm",
+						Callback = function()
+							print("Restarting")
+						end
+					},
+					{
+						Title = "Cancel",
+						Callback = function()
+							return
+						end
+					}
+				}
+			})
+		else
+			break
+		end
+	end
+end
+Window:Dialog({
+	Title = "Position Type",
+	Content = "CFrame is more specific but choose whatever works for this game",
+	Buttons = {
+		{
+			Title = "CFrame",
+			Callback = function()
+				posType = "CFrame"
+			end
+		},
+		{
+			Title = "Position",
+			Callback = function()
+				posType = "Position"
+			end
+		}
+	}
 })
-local Button1 = Tab:CreateButton({
-Name = "Spawn Tower (May need money)",
-Callback = function()
-	args[2] = game:GetService("Players").LocalPlayer.Character.PrimaryPart[postype]
-	if remote.ClassName == "RemoteFunction" then
-        remote:InvokeServer(unpack(args))
-    elseif remote.ClassName == "RemoteEvent" then
-        remote:FireServer(unpack(args))
-    else
-        warn("Wrong path")
-    end
-end,
+save()
+for i, v in next, towerFolder:GetChildren() do
+	if v:IsA("Model") then
+		local str = v.Name
+		if v:FindFirstChild("Price", true) and v.ClassName == "IntValue" then
+			str = str..", "..v:FindFirstChild("Price", true).Value
+		end
+		table.insert(towers, str)
+	end
+end
+local SelectTower = Tabs.Main:AddDropdown("Dropdown", {
+	Title = "Choose tower",
+	Values = towers,
+	Multi = false,
+	Default = "",
+})
+SelectTower:OnChanged(function(Value)
+	local towerName = string.split(Value[1], ",")[1]
+	args[1] = towerName or tostring(Value[1])
+end)
+Tabs.Main:AddButton({
+	Title = "Spawn Tower (May need money)",
+	Description = "Spawns selected tower",
+	Callback = function()
+		args[2] = game:GetService("Players").LocalPlayer.Character.PrimaryPart[posType]
+		if remote.ClassName == "RemoteFunction" then
+			remote:InvokeServer(unpack(args))
+		elseif remote.ClassName == "RemoteEvent" then
+			remote:FireServer(unpack(args))
+		else
+			warn("Wrong path")
+		end
+	end
+})
+Tabs.Main:AddButton({
+	Title = "Change Position Type",
+	Description = "Change if current position type doesnt work",
+	Callback = function()
+		Window:Dialog({
+			Title = "Position Type",
+			Content = "CFrame is more specific but choose whatever works for this game",
+			Buttons = {
+				{
+					Title = "CFrame",
+					Callback = function()
+						posType = "CFrame"
+						save()
+					end
+				},
+				{
+					Title = "Position",
+					Callback = function()
+						posType = "Position"
+						save()
+					end
+				}
+			}
+		})
+	end
 })
