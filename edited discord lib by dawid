@@ -2328,6 +2328,9 @@ function DiscordLib:Window(text)
 					toggled = new_bool
 					pcall(callback, new_bool)
 				end
+				if default then
+					ToggleFunction:Change(default)
+				end
 				return ToggleFunction
 			end
 			
@@ -2456,18 +2459,6 @@ function DiscordLib:Window(text)
 				ValueLabel.Text = tostring(start and math.floor((start / max) * (max - min) + min) or 0)
 				ValueLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 				ValueLabel.TextSize = 10.000
-
-				function SliderFunction:Change(value)
-
-					local scale = (value - min) / (max - min)
-					scale = math.clamp(scale, 0, 1)
-					CurrentValueFrame.Size = UDim2.new(scale, 0, 0, 8)
-					Zip.Position = UDim2.new(scale, -6, -0.644999981, 0)
-					local value = math.floor(scale * (max - min) + min)
-					ValueLabel.Text = tostring(value)
-					pcall(callback, value)
-				end
-
 				local function move(input)
 					local pos =
 						UDim2.new(
@@ -2513,14 +2504,16 @@ function DiscordLib:Window(text)
 				end
 				)
 				
-				function SliderFunction:Change(tochange)
-					CurrentValueFrame.Size = UDim2.new((tochange or 0) / max, 0, 0, 8)
-					Zip.Position = UDim2.new((tochange or 0)/max, -6,-0.644999981, 0)
-					ValueLabel.Text = tostring(tochange and math.floor((tochange / max) * (max - min) + min) or 0)
-					pcall(callback, tochange)
-				end
-				
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
+				function SliderFunction:Change(value)
+					local scale = (value - min) / (max - min)
+					scale = math.clamp(scale, 0, 1)
+					CurrentValueFrame.Size = UDim2.new(scale, 0, 0, 8)
+					Zip.Position = UDim2.new(scale, -6, -0.644999981, 0)
+					local value = math.floor(scale * (max - min) + min)
+					ValueLabel.Text = tostring(value)
+					pcall(callback, value)
+				end
 				return SliderFunction
 			end
 			function ChannelContent:Seperator()
@@ -3107,7 +3100,7 @@ function DiscordLib:Window(text)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 			end
 			
-			function ChannelContent:Textbox(text, placetext, disapper, callback)
+			function ChannelContent:Textbox(text, placetext, default, disapper, callback)
 				local Textbox = Instance.new("Frame")
 				local TextboxTitle = Instance.new("TextLabel")
 				local TextboxFrameOutline = Instance.new("Frame")
@@ -3199,6 +3192,9 @@ function DiscordLib:Window(text)
 				function TextBoxFunction:Change(new_text)
 					TextBox.Text = new_text
 					pcall(callback, new_text)
+				end
+				if default then
+					TextBoxFunction:Change(default)
 				end
 				return TextBoxFunction
 			end
