@@ -3182,12 +3182,10 @@ function DiscordLib:Window(text)
 						TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
 						{BackgroundColor3 = Color3.fromRGB(37, 40, 43)}
 					):Play()
-					if ep then
-						if #TextBox.Text > 0 then
-							pcall(callback, TextBox.Text)
-							if disapper then
-								TextBox.Text = ""
-							end
+					if #TextBox.Text > 0 then
+						pcall(callback, TextBox.Text)
+						if disapper then
+							TextBox.Text = ""
 						end
 					end
 				end)
