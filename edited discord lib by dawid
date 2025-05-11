@@ -156,7 +156,7 @@ function DiscordLib:Window(text)
 	CloseBtn.Position = UDim2.new(0.959063113, 0, -0.0169996787, 0)
 	CloseBtn.Size = UDim2.new(0, 28, 0, 22)
 	CloseBtn.Font = Enum.Font.Gotham
-	CloseBtn.Text = ""
+	CloseBtn.Text = "X"
 	CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 	CloseBtn.TextSize = 14.000
 	CloseBtn.BorderSizePixel = 0
@@ -177,7 +177,7 @@ function DiscordLib:Window(text)
 	MinimizeBtn.Position = UDim2.new(0.917947114, 0, -0.0169996787, 0)
 	MinimizeBtn.Size = UDim2.new(0, 28, 0, 22)
 	MinimizeBtn.Font = Enum.Font.Gotham
-	MinimizeBtn.Text = ""
+	MinimizeBtn.Text = "-"
 	MinimizeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 	MinimizeBtn.TextSize = 14.000
 	MinimizeBtn.BorderSizePixel = 0
