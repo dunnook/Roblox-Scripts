@@ -3238,7 +3238,7 @@ function DiscordLib:Window(text)
                 return LabelFunction
 			end
 			
-			function ChannelContent:Bind(text, presetbind, default, callback)
+			function ChannelContent:Bind(text, presetbind, callback)
 				local Key = presetbind.Name
 				local Keybind = Instance.new("TextButton")
 				local KeybindTitle = Instance.new("TextLabel")
@@ -3303,9 +3303,6 @@ function DiscordLib:Window(text)
 				function KeybindFunction:Change(new_keycode)
 					KeybindText.Text = new_keycode.Name
 					Key = new_keycode.Name
-				end
-				if default then
-					KeybindFunction:Change(default)
 				end
 				return KeybindFunction
 			end
