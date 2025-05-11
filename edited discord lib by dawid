@@ -168,7 +168,6 @@ function DiscordLib:Window(text)
 	CloseIcon.BackgroundTransparency = 1.000
 	CloseIcon.Position = UDim2.new(0.189182192, 0, 0.128935531, 0)
 	CloseIcon.Size = UDim2.new(0, 17, 0, 17)
-	CloseIcon.Image = "http://www.roblox.com/asset/?id=6035047409"
 	CloseIcon.ImageColor3 = Color3.fromRGB(220, 221, 222)
 
 	MinimizeBtn.Name = "MinimizeButton"
@@ -190,7 +189,6 @@ function DiscordLib:Window(text)
 	MinimizeIcon.BackgroundTransparency = 1.000
 	MinimizeIcon.Position = UDim2.new(0.189182192, 0, 0.128935531, 0)
 	MinimizeIcon.Size = UDim2.new(0, 17, 0, 17)
-	MinimizeIcon.Image = "http://www.roblox.com/asset/?id=6035067836"
 	MinimizeIcon.ImageColor3 = Color3.fromRGB(220, 221, 222)
 
 	ServersHolder.Name = "ServersHolder"
@@ -356,7 +354,6 @@ function DiscordLib:Window(text)
 	SettingsOpenBtnIco.BackgroundColor3 = Color3.fromRGB(220, 220, 220)
 	SettingsOpenBtnIco.BackgroundTransparency = 1.000
 	SettingsOpenBtnIco.Size = UDim2.new(0, 18, 0, 18)
-	SettingsOpenBtnIco.Image = "http://www.roblox.com/asset/?id=6031280882"
 	SettingsOpenBtnIco.ImageColor3 = Color3.fromRGB(220, 220, 220)
 	local SettingsFrame = Instance.new("Frame")
 	local Settings = Instance.new("Frame")
@@ -455,7 +452,6 @@ function DiscordLib:Window(text)
 	CloseSettingsBtnIcon.BackgroundTransparency = 1.000
 	CloseSettingsBtnIcon.Position = UDim2.new(0, 2, 0, 2)
 	CloseSettingsBtnIcon.Size = UDim2.new(0, 19, 0, 19)
-	CloseSettingsBtnIcon.Image = "http://www.roblox.com/asset/?id=6035047409"
 	CloseSettingsBtnIcon.ImageColor3 = Color3.fromRGB(222, 222, 222)
 	
 	CloseSettingsBtn.MouseButton1Click:Connect(function()
@@ -679,7 +675,6 @@ function DiscordLib:Window(text)
 	SearchIco.BackgroundTransparency = 1.000
 	SearchIco.Position = UDim2.new(0.150000006, 0, 0.100000001, 0)
 	SearchIco.Size = UDim2.new(0, 15, 0, 15)
-	SearchIco.Image = "http://www.roblox.com/asset/?id=6034407084"
 	SearchIco.ImageColor3 = Color3.fromRGB(114, 118, 125)
 	
 	UserPanelUserIcon.MouseEnter:Connect(function()
@@ -900,7 +895,6 @@ function DiscordLib:Window(text)
 		Close2Icon.BackgroundTransparency = 1.000
 		Close2Icon.Position = UDim2.new(-0.0384615399, 0, 0.312910825, 0)
 		Close2Icon.Size = UDim2.new(0, 25, 0, 25)
-		Close2Icon.Image = "http://www.roblox.com/asset/?id=6035047409"
 		Close2Icon.ImageColor3 = Color3.fromRGB(119, 122, 127)
 
 		CloseBtn1.Name = "CloseBtn1"
@@ -1401,7 +1395,6 @@ function DiscordLib:Window(text)
 		Close2Icon.BackgroundTransparency = 1.000
 		Close2Icon.Position = UDim2.new(-0.0384615399, 0, 0.312910825, 0)
 		Close2Icon.Size = UDim2.new(0, 25, 0, 25)
-		Close2Icon.Image = "http://www.roblox.com/asset/?id=6035047409"
 		Close2Icon.ImageColor3 = Color3.fromRGB(119, 122, 127)
 
 		CloseBtn1.Name = "CloseBtn1"
@@ -2175,6 +2168,7 @@ function DiscordLib:Window(text)
 				local ToggleFrameCircle = Instance.new("Frame")
 				local ToggleFrameCircleCorner = Instance.new("UICorner")
 				local Icon = Instance.new("ImageLabel")
+				local ToggleFunction = {}
 
 				Toggle.Name = "Toggle"
 				Toggle.Parent = ChannelHolder
@@ -2228,7 +2222,6 @@ function DiscordLib:Window(text)
 				Icon.BorderColor3 = Color3.fromRGB(27, 42, 53)
 				Icon.Position = UDim2.new(0, 8, 0, 8)
 				Icon.Size = UDim2.new(0, 13, 0, 13)
-				Icon.Image = "http://www.roblox.com/asset/?id=6035047409"
 				Icon.ImageColor3 = Color3.fromRGB(114, 118, 125)
 				
 				Toggle.MouseButton1Click:Connect(function()
@@ -2249,7 +2242,6 @@ function DiscordLib:Window(text)
 							TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
 							{ImageTransparency = 1}
 						):Play()
-						Icon.Image = "http://www.roblox.com/asset/?id=6023426926"
 						wait(.1)
 						TweenService:Create(
 							Icon,
@@ -2273,7 +2265,6 @@ function DiscordLib:Window(text)
 							TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
 							{ImageTransparency = 1}
 						):Play()
-						Icon.Image = "http://www.roblox.com/asset/?id=6035047409"
 						wait(.1)
 						TweenService:Create(
 							Icon,
@@ -2286,10 +2277,61 @@ function DiscordLib:Window(text)
 				end)
 				
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
+				function ToggleFunction:Change(new_bool)
+					if toggled == false then
+						TweenService:Create(
+							Icon,
+							TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+							{ImageColor3 = Color3.fromRGB(67,181,129)}
+						):Play()
+						TweenService:Create(
+							ToggleFrame,
+							TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+							{BackgroundColor3 = Color3.fromRGB(67,181,129)}
+						):Play()
+						ToggleFrameCircle:TweenPosition(UDim2.new(0.655, -5, 0.133000001, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, .3, true)
+						TweenService:Create(
+							Icon,
+							TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+							{ImageTransparency = 1}
+						):Play()
+						wait(.1)
+						TweenService:Create(
+							Icon,
+							TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+							{ImageTransparency = 0}
+						):Play()
+					else
+						TweenService:Create(
+							Icon,
+							TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+							{ImageColor3 = Color3.fromRGB(114, 118, 125)}
+						):Play()
+						TweenService:Create(
+							ToggleFrame,
+							TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+							{BackgroundColor3 = Color3.fromRGB(114, 118, 125)}
+						):Play()
+						ToggleFrameCircle:TweenPosition(UDim2.new(0.234999999, -5, 0.133000001, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, .3, true)
+						TweenService:Create(
+							Icon,
+							TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+							{ImageTransparency = 1}
+						):Play()
+						wait(.1)
+						TweenService:Create(
+							Icon,
+							TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+							{ImageTransparency = 0}
+						):Play()
+					end
+					toggled = new_bool
+					pcall(callback, new_bool)
+				end
 			end
 			
 			function ChannelContent:Slider(text, min, max, start, callback)
-				local SliderFunc = {}
+				local SliderFunction = {}
 				local dragging = false
 				local Slider = Instance.new("TextButton")
 				local SliderTitle = Instance.new("TextLabel")
@@ -2458,7 +2500,7 @@ function DiscordLib:Window(text)
 				end
 				)
 				
-				function SliderFunc:Change(tochange)
+				function SliderFunction:Change(tochange)
 					CurrentValueFrame.Size = UDim2.new((tochange or 0) / max, 0, 0, 8)
 					Zip.Position = UDim2.new((tochange or 0)/max, -6,-0.644999981, 0)
 					ValueLabel.Text = tostring(tochange and math.floor((tochange / max) * (max - min) + min) or 0)
@@ -2466,7 +2508,7 @@ function DiscordLib:Window(text)
 				end
 				
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
-				return SliderFunc
+				return SliderFunction
 			end
 			function ChannelContent:Seperator()
 				local Seperator1 = Instance.new("Frame")
@@ -2488,7 +2530,7 @@ function DiscordLib:Window(text)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 			end
 			function ChannelContent:Dropdown(text, list, callback)
-				local DropFunc = {}
+				local DropFunction = {}
 				local itemcount = 0
 				local framesize = 0
 				local DropTog = false
@@ -2562,7 +2604,6 @@ function DiscordLib:Window(text)
 				ArrowImg.BackgroundTransparency = 1.000
 				ArrowImg.Position = UDim2.new(1.84974098, 0, 0.167428851, 0)
 				ArrowImg.Size = UDim2.new(0, 22, 0, 22)
-				ArrowImg.Image = "http://www.roblox.com/asset/?id=6034818372"
 				ArrowImg.ImageColor3 = Color3.fromRGB(212, 212, 212)
 
 				DropdownFrameBtn.Name = "DropdownFrameBtn"
@@ -2724,7 +2765,7 @@ function DiscordLib:Window(text)
 				
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 				
-				function DropFunc:Clear()
+				function DropFunction:Clear()
 					for i,v in next, DropItemHolder:GetChildren() do
 						if v.Name == "Item" then
 							v:Destroy()
@@ -2744,7 +2785,7 @@ function DiscordLib:Window(text)
 					ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 				end
 				
-				function DropFunc:Add(textadd)
+				function DropFunction:Add(textadd)
 					itemcount = itemcount + 1
 
 					if itemcount == 1 then
@@ -2812,7 +2853,16 @@ function DiscordLib:Window(text)
 					DropdownFrameMain.Size = UDim2.new(0, 392, 0, framesize + 6)
 					DropdownFrameMainOutline.Size = UDim2.new(0, 396, 0, framesize + 10)
 				end
-				return DropFunc
+				function DropFunction:Set(new_value)
+					CurrentSelectedText.Text = new_value
+					pcall(callback, new_value)
+					Dropdown.Size = UDim2.new(0, 403, 0, 73)
+					DropdownFrameMain.Visible = false
+					DropdownFrameMainOutline.Visible = false
+					ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
+					DropTog = not DropTog
+				end
+				return DropFunction
 			end
 			function ChannelContent:Colorpicker(text, preset, callback)
 				local OldToggleColor = Color3.fromRGB(0, 0, 0)
@@ -2900,7 +2950,6 @@ function DiscordLib:Window(text)
 				ColorSelection.BackgroundTransparency = 1.000
 				ColorSelection.Position = UDim2.new(preset and select(3, Color3.toHSV(preset)))
 				ColorSelection.Size = UDim2.new(0, 18, 0, 18)
-				ColorSelection.Image = "http://www.roblox.com/asset/?id=4805639000"
 				ColorSelection.ScaleType = Enum.ScaleType.Fit
 
 				Hue.Name = "Hue"
@@ -2933,7 +2982,6 @@ function DiscordLib:Window(text)
 				HueSelection.BackgroundTransparency = 1.000
 				HueSelection.Position = UDim2.new(0.48, 0, 1 - select(1, Color3.toHSV(preset)))
 				HueSelection.Size = UDim2.new(0, 18, 0, 18)
-				HueSelection.Image = "http://www.roblox.com/asset/?id=4805639000"
 
 				PresetClr.Name = "PresetClr"
 				PresetClr.Parent = ColorpickerFrame
@@ -3054,6 +3102,7 @@ function DiscordLib:Window(text)
 				local TextboxFrame = Instance.new("Frame")
 				local TextboxFrameCorner = Instance.new("UICorner")
 				local TextBox = Instance.new("TextBox")
+				local TextBoxFunction = {}
 
 				Textbox.Name = "Textbox"
 				Textbox.Parent = ChannelHolder
@@ -3133,13 +3182,18 @@ function DiscordLib:Window(text)
 						end
 					end
 				end)
-				
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
+				function TextBoxFunction:Change(new_text)
+					TextBox.Text = new_text
+					pcall(callback, new_text)
+				end
+				return TextBoxFunction
 			end
 			
 			function ChannelContent:Label(text)
 				local Label = Instance.new("TextButton")
 				local LabelTitle = Instance.new("TextLabel")
+				local LabelFunction
 
 				Label.Name = "Label"
 				Label.Parent = ChannelHolder
@@ -3166,11 +3220,10 @@ function DiscordLib:Window(text)
 				LabelTitle.TextXAlignment = Enum.TextXAlignment.Left
 				
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
-                return {
-                    ["Change"] = function(new_text)
-                        LabelTitle.Text = new_text
-                    end
-                }
+				function LabelFunction:Change(new_text)
+					LabelTitle.Text = new_text
+				end
+                return LabelFunction
 			end
 			
 			function ChannelContent:Bind(text, presetbind, callback)
@@ -3178,6 +3231,7 @@ function DiscordLib:Window(text)
 				local Keybind = Instance.new("TextButton")
 				local KeybindTitle = Instance.new("TextLabel")
 				local KeybindText = Instance.new("TextLabel")
+				local KeybindFunction = {}
 
 				Keybind.Name = "Keybind"
 				Keybind.Parent = ChannelHolder
@@ -3228,12 +3282,17 @@ function DiscordLib:Window(text)
 				function(current, pressed)
 					if not pressed then
 						if current.KeyCode.Name == Key then
-							pcall(callback)
+							pcall(callback, Enum.KeyCode[Key])
 						end
 					end
 				end
 				)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
+				function KeybindFunction:Change(new_keycode)
+					KeybindText.Text = new_keycode.Name
+					Key = new_keycode.Name
+				end
+				return KeybindFunction
 			end
 			
 			return ChannelContent
