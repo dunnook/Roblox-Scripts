@@ -28,7 +28,7 @@ KeySystem:Button("Redeem Key", function()
         DiscordLib:Notification("An error happened", status.message, "Damn, alright bro!")
     end
 end)
-KeySystem:Button("Get key (Linkvertise)", function()
+KeySystem:Button("Get key (Lootlabs)", function()
     setclipboard("https://ads.luarmor.net/get_key?for=Stagnant_Hub_Key-PbbuGEZaMelj")
     DiscordLib:Notification("Link copied", "Link successfully copied", "Alright fam!")
 end)
