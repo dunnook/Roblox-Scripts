@@ -3312,7 +3312,6 @@ function DiscordLib:Window(text)
 	end
 	function ServerHold:Toggle(bool)
 		Discord.Enabled = bool
-		print(bool, Discord.Enabled)
 	end
 	return ServerHold
 end
