@@ -3311,7 +3311,7 @@ function DiscordLib:Window(text)
 		return ChannelHold
 	end
 	function ServerHold:Toggle(bool)
-		MainFrame.Visible = bool
+		Discord.Enabled = bool
 	end
 	return ServerHold
 end
